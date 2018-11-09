@@ -13,7 +13,7 @@
 *
 * ****************************************
  */
-package game;
+package towerdefense.game;
 
 /**
  *
