@@ -28,10 +28,7 @@ public class TowerDefenseGame extends AnimationTimer
 	 *
 	 */
 	public static final int TILE_WIDTH = 100;
-	private double EASY_DIFFICULTY = 0.75;
-	private double MEDIUM_DIFFICULTY = 1;
-	private double HARD_DIFFICULTY = 1.5;
-	private double activeDifficulty = MEDIUM_DIFFICULTY;
+	private Difficulty difficulty;
 	private Tower selectedTower = null;
 	private Board gameBoard;
 	private int playerMoney = 0;
@@ -39,10 +36,11 @@ public class TowerDefenseGame extends AnimationTimer
 
 	/**
 	 *
+	 * @param difficulty
 	 */
-	public TowerDefenseGame()
+	public TowerDefenseGame(Difficulty difficulty)
 	{
-
+		this.difficulty = difficulty;
 	}
 
 	/**
@@ -61,7 +59,7 @@ public class TowerDefenseGame extends AnimationTimer
 	 */
 	private boolean canBuyTower(Tower towerToBuy)
 	{
-
+		return true;
 	}
 
 	/**

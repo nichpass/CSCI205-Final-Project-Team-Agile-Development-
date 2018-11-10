@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="towerdefense.mvc.TowerDefenseUIController">
     <children>
-        <BorderPane fx:id="gameScreen" prefHeight="720.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane fx:id="gameScreen" mouseTransparent="true" prefHeight="720.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
                 <Pane prefHeight="150.0" prefWidth="640.0" BorderPane.alignment="TOP_CENTER">
                     <children>
@@ -48,9 +48,9 @@
                 </Pane>
             </top>
         </BorderPane>
-        <VBox fx:id="optionsScreen" prefHeight="720.0" prefWidth="1280.0" visible="false">
+        <VBox fx:id="optionsScreen" alignment="CENTER" mouseTransparent="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
             <children>
-                <HBox alignment="CENTER" prefHeight="360.0" prefWidth="1280.0">
+                <HBox alignment="CENTER" prefHeight="240.0" prefWidth="1280.0">
                     <children>
                         <Label graphicTextGap="0.0" text="Difficulty" textFill="#101ee8">
                             <font>
@@ -59,7 +59,7 @@
                         </Label>
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" onMouseClicked="#onMediumLabelClick" prefHeight="360.0" prefWidth="1280.0" spacing="100.0">
+                <HBox alignment="CENTER" prefHeight="240.0" prefWidth="1280.0" spacing="100.0">
                     <children>
                         <Label fx:id="easyDifficultyLabel" onMouseClicked="#onEasyDifficultyLabelClick" text="Easy" textFill="#14ee64">
                             <font>
@@ -87,21 +87,30 @@
                         </Label>
                     </children>
                 </HBox>
+            <HBox alignment="CENTER" prefHeight="240.0" prefWidth="1080.0">
+               <children>
+                  <Button fx:id="optionsBackButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#onOptionsBackButtonClick" text="Back to Menu" textFill="#201dc9">
+                     <font>
+                        <Font size="46.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
             </children>
         </VBox>
         <VBox fx:id="menuScreen" alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" spacing="50.0">
             <children>
-                <Button fx:id="menuPlayButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#menuPlayButtonClick" text="Play" textFill="#201dc9">
+                <Button fx:id="menuPlayButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#onMenuPlayButtonClick" text="Play" textFill="#201dc9">
                     <font>
                         <Font size="46.0" />
                     </font>
                 </Button>
-                <Button fx:id="menuOptionsButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#menuOptionsButtonClick" text="Options" textFill="#201dc9">
+                <Button fx:id="menuOptionsButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#onMenuOptionsButtonClick" text="Options" textFill="#201dc9">
                     <font>
                         <Font size="46.0" />
                     </font>
                 </Button>
-                <Button fx:id="menuExitButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#menuExitButtonClick" text="Exit" textFill="#201dc9">
+                <Button fx:id="menuExitButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#onMenuExitButtonClick" text="Exit" textFill="#201dc9">
                     <font>
                         <Font size="46.0" />
                     </font>

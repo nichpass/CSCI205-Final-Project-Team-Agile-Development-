@@ -21,7 +21,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import towerdefense.game.TowerDefenseGame;
 
 /**
  *
@@ -30,21 +29,19 @@ import towerdefense.game.TowerDefenseGame;
 public class TowerDefenseMain extends Application
 {
 
-	TowerDefenseGame game;
 	TowerDefenseUIController controller;
 
 	@Override
 	public void init()
 	{
-		game = new TowerDefenseGame();
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
 		FXMLLoader loader = new FXMLLoader(
-			this.getClass().getClassLoader().getResource(
-				"towerdefense/mvc/TowerDefenseUI.fxml"));
+				this.getClass().getClassLoader().getResource(
+						"towerdefense/mvc/TowerDefenseUI.fxml"));
 
 		Parent root = (Parent) loader.load();
 
