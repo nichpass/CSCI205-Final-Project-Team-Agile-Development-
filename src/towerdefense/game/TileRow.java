@@ -21,8 +21,7 @@ import java.util.ArrayList;
  *
  * @author rsf
  */
-public class TileRow
-{
+public class TileRow {
 
 	private ArrayList<Tile> tilesInRow = new ArrayList();
 	private int livesLostInRow = 0;
@@ -31,16 +30,17 @@ public class TileRow
 	 *
 	 * @param numTiles
 	 */
-	public TileRow(int numTiles)
-	{
-
+	public TileRow(int numTiles) {
+		for(int i = 0; i < numTiles; i++){
+			tilesInRow.add(new Tile());
+		}
+		//TODO: unsure if this is the way to do it
 	}
 
 	/**
 	 *
 	 */
-	public void update()
-	{
+	public void update() {
 
 	}
 
@@ -48,26 +48,22 @@ public class TileRow
 	 *
 	 * @param spawnedEnemy
 	 */
-	public void spawnEnemy(Enemy spawnedEnemy)
-	{
+	public void spawnEnemy(Enemy spawnedEnemy) {
 
 	}
 
 	// Checks the positions of enemies and returns the number of new lives that need to be lost.
-	private int checkLivesLost()
-	{
+	private int checkLivesLost() {
 
 	}
 
 	// Transitions any projectiles beyond the right of the tile at the given index to the start of tile at the next index.
-	private ArrayList<Projectile> makeTransitionsBackward(int tileIndex)
-	{
+	private ArrayList<Projectile> makeTransitionsBackward(int tileIndex) {
 
 	}
 
 	// Transitions any enemies beyond the left of the tile at the given index to the end of tile at the previous index
-	private ArrayList<Enemy> makeTransitionsForward(int tileIndex)
-	{
+	private ArrayList<Enemy> makeTransitionsForward(int tileIndex) {
 
 	}
 }

@@ -21,8 +21,10 @@ import java.util.ArrayList;
  *
  * @author rsf
  */
-public class Board
-{
+public class Board {
+
+	private int numRows;
+	private int numTilesPerRow;
 
 	private ArrayList<TileRow> gameRows = new ArrayList();
 
@@ -31,16 +33,15 @@ public class Board
 	 * @param numRows
 	 * @param numTilesPerRow
 	 */
-	public Board(int numRows, int numTilesPerRow)
-	{
-
+	public Board(int numRows, int numTilesPerRow) {
+		this.numRows = numRows;
+		this.numTilesPerRow = numTilesPerRow;
 	}
 
 	/**
 	 *
 	 */
-	public void update()
-	{
+	public void update() {
 
 	}
 
@@ -49,8 +50,7 @@ public class Board
 	 * @param spawnedEnemy
 	 * @param rowIndex
 	 */
-	public void spawnEnemyAtRow(Enemy spawnedEnemy, int rowIndex)
-	{
+	public void spawnEnemyAtRow(Enemy spawnedEnemy, int rowIndex) {
 
 	}
 }

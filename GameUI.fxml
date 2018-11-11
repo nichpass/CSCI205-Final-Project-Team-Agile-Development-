@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameUI">
+   <children>
+      <BorderPane layoutX="6.0" prefHeight="720.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <Pane prefHeight="150.0" prefWidth="640.0" BorderPane.alignment="TOP_CENTER">
+               <children>
+                  <VBox alignment="CENTER" layoutX="643.0" prefHeight="150.0" prefWidth="640.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="BOTTOM" prefHeight="45.0" prefWidth="225.0" text="Time Survived:" />
+                              <Label text="00:00:00" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="BOTTOM" prefHeight="33.0" prefWidth="181.0" text="Capital:" />
+                              <Label text="\$0.00" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="150.0" prefWidth="640.0">
+                     <children>
+                        <Label text="Select Your Defenses:" />
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="640.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </Pane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -19,8 +19,7 @@ package towerdefense.game;
  *
  * @author rsf
  */
-public class Enemy
-{
+public class Enemy {
 
 	private int damagePerTick;
 	private int movementPerTick;
@@ -31,28 +30,29 @@ public class Enemy
 	/**
 	 *
 	 */
-	public Enemy()
-	{
-
-	}
+	public Enemy(int damagePerTick, int movementPerTick, int maxHealth, int positionInTile) {
+		this.damagePerTick = damagePerTick;
+		this.movementPerTick = movementPerTick;
+		this.positionInTile = positionInTile;
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
+    }
 
 	/**
 	 *
 	 * @param templateEnemy
 	 */
-	public Enemy(Enemy templateEnemy)
-	{
+	public Enemy(Enemy templateEnemy) {
 
-	}
+    }
 
 	/**
 	 *
 	 * @param damageToTake
 	 * @return
 	 */
-	public boolean takeDamage(double damageToTake)
-	{
-
+	public boolean takeDamage(double damageToTake) {
+        this.health -= damageToTake;
 	}
 
 	/**
@@ -60,16 +60,18 @@ public class Enemy
 	 * @param damagedTower
 	 * @return
 	 */
-	public boolean damageTower(Tower damagedTower)
-	{
-
+	public boolean damageTower(Tower damagedTower) {
+        damagedTower.takeDamage(this.damagePerTick);
+        if(damagedTower.getHealth() <= 0){
+            return true;
+        }
+        return false;
 	}
 
 	/**
 	 *
 	 */
-	public void update()
-	{
+	public void update() {
 
 	}
 
@@ -81,4 +83,6 @@ public class Enemy
 	{
 		return positionInTile;
 	}
+
+	public int getHealth(){ return health; }
 }

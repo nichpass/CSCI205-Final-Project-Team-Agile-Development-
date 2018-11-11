@@ -31,25 +31,26 @@ public class Tower
 	/**
 	 *
 	 */
-	public Tower()
-	{
-
+	public Tower(Projectile projectileShot, int maxTimeToShot, int currentTimeToShot, int health, int maxHealth) {
+		this.projectileShot = projectileShot;
+		this.maxTimeToShot = maxTimeToShot;
+		this.currentTimeToShot = currentTimeToShot;
+		this.maxHealth = maxHealth;
+		this.health = maxHealth;
 	}
 
 	/**
 	 *
 	 * @param templateTower
 	 */
-	public Tower(Tower templateTower)
-	{
-
+	public Tower(Tower templateTower) {
+		this = templateTower;
 	}
 
 	/**
 	 *
 	 */
-	public void update()
-	{
+	public void update() {
 
 	}
 
@@ -58,8 +59,19 @@ public class Tower
 	 * @param damageToTake
 	 * @return true if the tower dies as a result of the damage; false otherwise
 	 */
-	public boolean takeDamage(double damageToTake)
-	{
+	public boolean takeDamage(double damageToTake) {
+		this.health -= damageToTake;
+		if (this.health <= 0){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public Projectile spawnProjectile() {
 
 	}
 
@@ -67,17 +79,9 @@ public class Tower
 	 *
 	 * @return
 	 */
-	public Projectile spawnProjectile()
-	{
+	public boolean canShoot() {
 
 	}
 
-	/**
-	 *
-	 * @return
-	 */
-	public boolean canShoot()
-	{
-
-	}
+	public int getHealth(){ return health; }
 }

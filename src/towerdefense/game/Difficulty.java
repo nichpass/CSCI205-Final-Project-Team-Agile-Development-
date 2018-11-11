@@ -9,9 +9,12 @@ package towerdefense.game;
  *
  * @author zachd
  */
-public enum Difficulty
-{
-	EASY(0.75), MEDIUM(1.00), HARD(1.25);
+public enum Difficulty {
+
+	EASY(0.75),
+	MEDIUM(1.00),
+	HARD(1.25);
+
 	private double costMultiplier;
 
 	Difficulty(double costMultiplier)

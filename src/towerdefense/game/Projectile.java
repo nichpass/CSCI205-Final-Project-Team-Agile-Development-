@@ -19,8 +19,7 @@ package towerdefense.game;
  *
  * @author rsf
  */
-public class Projectile
-{
+public class Projectile {
 
 	private int damageOnContact;
 	private int movementPerTick;
@@ -29,25 +28,24 @@ public class Projectile
 	/**
 	 *
 	 */
-	public Projectile()
-	{
-
+	public Projectile(int damageOnContact, int movementPerTick, int positionInTile) {
+		this.damageOnContact = damageOnContact;
+		this.movementPerTick = movementPerTick;
+		this.positionInTile = positionInTile;
 	}
 
 	/**
 	 *
 	 * @param templateProjectile
 	 */
-	public Projectile(Projectile templateProjectile)
-	{
+	public Projectile(Projectile templateProjectile) {
 
 	}
 
 	/**
 	 *
 	 */
-	public void update()
-	{
+	public void update() {
 
 	}
 
@@ -56,9 +54,12 @@ public class Projectile
 	 * @param damagedEnemy
 	 * @return
 	 */
-	public boolean damageEnemy(Enemy damagedEnemy)
-	{
-
+	public boolean damageEnemy(Enemy damagedEnemy) {
+		damagedEnemy.takeDamage(this.damageOnContact);
+		if (damagedEnemy.getHealth() <= 0){
+		    return true;
+        }
+        return false;
 	}
 
 	/**

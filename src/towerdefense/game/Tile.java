@@ -21,8 +21,7 @@ import java.util.ArrayList;
  *
  * @author rsf
  */
-public class Tile
-{
+public class Tile {
 
 	private Tower tower;
 	private ArrayList<Projectile> projectiles = new ArrayList();
@@ -31,24 +30,14 @@ public class Tile
 	/**
 	 *
 	 */
-	public Tile()
-	{
+	public Tile() {
+		this.tower = null;
 	}
 
 	/**
 	 *
 	 */
-	public void update()
-	{
-
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public ArrayList<Enemy> popEnemies()
-	{
+	public void update() {
 
 	}
 
@@ -56,9 +45,22 @@ public class Tile
 	 *
 	 * @return
 	 */
-	public ArrayList<Projectile> popProjectiles()
-	{
+	public ArrayList<Enemy> popEnemies() {
+        ArrayList<Enemy> temp = this.enemies;
+        this.enemies.clear();
+        return temp;
+    }
 
+	/**
+	 *
+	 * @return
+	 */
+	public ArrayList<Projectile> popProjectiles() {
+	    ArrayList<Projectile> temp = this.projectiles;
+	    this.projectiles.clear();
+		return temp;
+		//TODO: I'm assuming that this method is supposed to pop off all the proctiles based on the name and method type
+        // TODO: I'm also assuming that the projectile object isn't passed by reference but idk if that's true
 	}
 
 	/**
@@ -67,7 +69,7 @@ public class Tile
 	 */
 	public void pushEnemies(ArrayList<Enemy> enemies)
 	{
-
+	    this.enemies.addAll(enemies);
 	}
 
 	/**
@@ -76,7 +78,7 @@ public class Tile
 	 */
 	public void pushProjectiles(ArrayList<Projectile> projectiles)
 	{
-
+        this.projectiles.addAll(projectiles);
 	}
 
 	private void handleCollisions()
