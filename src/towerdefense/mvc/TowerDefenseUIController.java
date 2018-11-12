@@ -15,6 +15,7 @@
  */
 package towerdefense.mvc;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,6 +28,7 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import towerdefense.game.Difficulty;
@@ -37,112 +39,133 @@ import towerdefense.game.TowerDefenseGame;
  *
  * @author rsf
  */
-public class TowerDefenseUIController {
+public class TowerDefenseUIController extends AnimationTimer {
 
-	@FXML
-	private BorderPane gameScreen;
-	@FXML
-	private Label survivalTimeLabel;
-	@FXML
-	private Label currentMoneyLabel;
-	@FXML
-	private HBox selectTowerBox;
-	@FXML
-	private VBox optionsScreen;
-	@FXML
-	private Label easyDifficultyLabel;
-	@FXML
-	private Label mediumDifficultyLabel;
-	@FXML
-	private Label hardDifficultyLabel;
-	@FXML
-	private VBox menuScreen;
-	@FXML
-	private Button menuPlayButton;
-	@FXML
-	private Button menuOptionsButton;
-	@FXML
-	private Button menuExitButton;
-	@FXML
-	private Button optionsBackButton;
+    @FXML
+    private BorderPane gameScreen;
+    @FXML
+    private Label survivalTimeLabel;
+    @FXML
+    private Label currentMoneyLabel;
+    @FXML
+    private HBox selectTowerBox;
+    @FXML
+    private VBox optionsScreen;
+    @FXML
+    private Label easyDifficultyLabel;
+    @FXML
+    private Label mediumDifficultyLabel;
+    @FXML
+    private Label hardDifficultyLabel;
+    @FXML
+    private VBox menuScreen;
+    @FXML
+    private Button menuPlayButton;
+    @FXML
+    private Button menuOptionsButton;
+    @FXML
+    private Button menuExitButton;
+    @FXML
+    private Button optionsBackButton;
+    @FXML
+    private Pane centerGamePane;
+    @FXML
+    private Pane bottomPreviewPane;
 
-	private Stage stage;
+    private Stage stage;
 
-	private Difficulty selectedDifficulty;
+    private Difficulty selectedDifficulty;
 
-	private TowerDefenseGame game;
+    private TowerDefenseGame game;
+    private long lastFrameTime = System.nanoTime();
 
-	@FXML
-	private void onEasyDifficultyLabelClick(MouseEvent event) {
-		this.selectedDifficulty = Difficulty.EASY;
-		selectDifficultyLabel(easyDifficultyLabel);
-	}
+    @FXML
 
-	@FXML
-	private void onMediumDifficultyLabelClick(MouseEvent event) {
-		this.selectedDifficulty = Difficulty.MEDIUM;
-		selectDifficultyLabel(mediumDifficultyLabel);
-	}
+    private void onEasyDifficultyLabelClick(MouseEvent event) {
+        this.selectedDifficulty = Difficulty.EASY;
+        selectDifficultyLabel(easyDifficultyLabel);
+    }
 
-	@FXML
-	private void onHardDifficultyLabelClick(MouseEvent event) {
-		this.selectedDifficulty = Difficulty.HARD;
-		selectDifficultyLabel(hardDifficultyLabel);
-	}
+    @FXML
+    private void onMediumDifficultyLabelClick(MouseEvent event) {
+        this.selectedDifficulty = Difficulty.MEDIUM;
+        selectDifficultyLabel(mediumDifficultyLabel);
+    }
 
-	private void selectDifficultyLabel(Label selectedLabel) {
-		for (Label label : new Label[]{
-			easyDifficultyLabel, mediumDifficultyLabel, hardDifficultyLabel
-		}) {
-			if (selectedLabel.equals(label)) {
-				label.borderProperty().set(new Border(new BorderStroke(
-						null, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
-						BorderWidths.DEFAULT)));
-			}
-			else {
-				label.borderProperty().set(new Border(new BorderStroke(
-						null, BorderStrokeStyle.NONE, CornerRadii.EMPTY,
-						BorderWidths.DEFAULT)));
-			}
-		}
-	}
+    @FXML
+    private void onHardDifficultyLabelClick(MouseEvent event) {
+        this.selectedDifficulty = Difficulty.HARD;
+        selectDifficultyLabel(hardDifficultyLabel);
+    }
 
-	@FXML
-	private void onMenuPlayButtonClick(ActionEvent event) {
-		game = new TowerDefenseGame(selectedDifficulty);
-		menuScreen.setMouseTransparent(true);
-		menuScreen.setVisible(false);
-		gameScreen.setMouseTransparent(false);
-		gameScreen.setVisible(true);
-	}
+    private void selectDifficultyLabel(Label selectedLabel) {
+        for (Label label : new Label[]{
+            easyDifficultyLabel, mediumDifficultyLabel, hardDifficultyLabel
+        }) {
+            if (selectedLabel.equals(label)) {
+                label.borderProperty().set(new Border(new BorderStroke(
+                    null, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+                    BorderWidths.DEFAULT)));
+            }
+            else {
+                label.borderProperty().set(new Border(new BorderStroke(
+                    null, BorderStrokeStyle.NONE, CornerRadii.EMPTY,
+                    BorderWidths.DEFAULT)));
+            }
+        }
+    }
 
-	@FXML
-	private void onMenuOptionsButtonClick(ActionEvent event) {
-		menuScreen.setMouseTransparent(true);
-		menuScreen.setVisible(false);
-		optionsScreen.setMouseTransparent(false);
-		optionsScreen.setVisible(true);
-	}
+    @FXML
+    private void onMenuPlayButtonClick(ActionEvent event) {
+        game = new TowerDefenseGame(selectedDifficulty);
+        menuScreen.setMouseTransparent(true);
+        menuScreen.setVisible(false);
+        gameScreen.setMouseTransparent(false);
+        gameScreen.setVisible(true);
+    }
 
-	@FXML
-	private void onMenuExitButtonClick(ActionEvent event) {
-		stage.close();
-	}
+    @FXML
+    private void onMenuOptionsButtonClick(ActionEvent event) {
+        menuScreen.setMouseTransparent(true);
+        menuScreen.setVisible(false);
+        optionsScreen.setMouseTransparent(false);
+        optionsScreen.setVisible(true);
+    }
 
-	@FXML
-	private void onOptionsBackButtonClick(ActionEvent event) {
-		optionsScreen.setMouseTransparent(true);
-		optionsScreen.setVisible(false);
-		menuScreen.setMouseTransparent(false);
-		menuScreen.setVisible(true);
-	}
+    @FXML
+    private void onMenuExitButtonClick(ActionEvent event) {
+        stage.close();
+    }
 
-	/**
-	 * Sets the stage of the controller for exiting purposes.
-	 *
-	 * @param stage the stage managed by the controller
-	 */
-	public void setStage(Stage stage) {
-		this.stage = stage;
-	}
+    @FXML
+    private void onOptionsBackButtonClick(ActionEvent event) {
+        optionsScreen.setMouseTransparent(true);
+        optionsScreen.setVisible(false);
+        menuScreen.setMouseTransparent(false);
+        menuScreen.setVisible(true);
+    }
+
+    /**
+     * Sets the stage of the controller for exiting purposes.
+     *
+     * @param stage the stage managed by the controller
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /**
+     * Handles the constant calls from the AnimationTimer
+     *
+     * @param now the current system time, in nanoseconds
+     */
+    @Override
+    public void handle(long now) {
+
+    }
+
+    private void draw() {
+        centerGamePane.getChildren().clear();
+        centerGamePane.getChildren().add(game.getDrawableNode());
+    }
 }
