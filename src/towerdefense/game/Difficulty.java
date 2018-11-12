@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Fall 2018
+*
+* Name: Alison Esterow, Nick Passantino, Zach Dunbrack
+* Date: Nov 9, 2018
+* Time: 11:24:52 AM
+*
+* Project: csci205_final_project
+* Package: game
+* File: Board
+* Description: TODO fill in description for Board
+*
+* ****************************************
  */
 package towerdefense.game;
 
@@ -15,15 +25,20 @@ public enum Difficulty {
 	MEDIUM(1.00),
 	HARD(1.25);
 
-	private double costMultiplier;
+	private final double costMultiplier;
 
-	Difficulty(double costMultiplier)
-	{
+	private Difficulty(double costMultiplier) {
 		this.costMultiplier = costMultiplier;
 	}
 
-	public double getCostMultiplier()
-	{
+	/**
+	 * Returns the multiplier to the cost of all {@link Tower} objects that will
+	 * be used when this difficulty is selected.
+	 *
+	 * @return the multiplier to the cost of all {@link Tower} objects that will
+	 * be used when this difficulty is selected
+	 */
+	public double getCostMultiplier() {
 		return costMultiplier;
 	}
 }

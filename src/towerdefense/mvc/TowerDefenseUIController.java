@@ -137,6 +137,11 @@ public class TowerDefenseUIController {
 		menuScreen.setVisible(true);
 	}
 
+	/**
+	 * Sets the stage of the controller for exiting purposes.
+	 *
+	 * @param stage the stage managed by the controller
+	 */
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}

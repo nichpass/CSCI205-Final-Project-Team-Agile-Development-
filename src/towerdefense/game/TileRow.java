@@ -27,43 +27,55 @@ public class TileRow {
 	private int livesLostInRow = 0;
 
 	/**
+	 * Constructs a row with the specified number of tiles.
 	 *
-	 * @param numTiles
+	 * @param numTiles the number of tiles in the row
 	 */
 	public TileRow(int numTiles) {
-		for(int i = 0; i < numTiles; i++){
+		for (int i = 0; i < numTiles; i++) {
 			tilesInRow.add(new Tile());
 		}
-		//TODO: unsure if this is the way to do it
 	}
 
 	/**
-	 *
+	 * Iterates over tiles in the row, moving projectiles across tiles as
+	 * appropriate while passing the rest of the computation onto the tile.
 	 */
 	public void update() {
-
+		// TODO iterate over tiles in row and transfer between tiles
 	}
 
 	/**
+	 * Adds an enemy to the last tile in the row.
 	 *
-	 * @param spawnedEnemy
+	 * @param spawnedEnemy the enemy to be added
 	 */
 	public void spawnEnemy(Enemy spawnedEnemy) {
-
+		ArrayList<Enemy> enemy = new ArrayList();
+		enemy.add(spawnedEnemy);
+		tilesInRow.get(tilesInRow.size() - 1).pushEnemies(enemy);
 	}
 
-	// Checks the positions of enemies and returns the number of new lives that need to be lost.
-	private int checkLivesLost() {
-
+	/**
+	 * Assigns the passed {@link Tower} object to the {@link Tile} object at the
+	 * specified index if it is not already associated with a {@link Tower}
+	 * object.
+	 *
+	 * @param towerToAdd the {@link Tower} to be associated with the tile
+	 * @param tileIndex the index of the {@link Tile} to which the {@link Tower}
+	 * should be added
+	 * @return true if the {@link Tile} did not already have a tower on it (i.e.
+	 * the tower was added); false otherwise
+	 */
+	public boolean tryAddTowerAt(Tower towerToAdd, int tileIndex) {
+		return tilesInRow.get(tileIndex).tryAddTower(towerToAdd);
 	}
 
-	// Transitions any projectiles beyond the right of the tile at the given index to the start of tile at the next index.
-	private ArrayList<Projectile> makeTransitionsBackward(int tileIndex) {
-
+	private void makeTransitionsBackward(int tileIndex) {
+		// TODO Transition any projectiles beyond the right of the tile at the given index to the start of tile at the next index.
 	}
 
-	// Transitions any enemies beyond the left of the tile at the given index to the end of tile at the previous index
-	private ArrayList<Enemy> makeTransitionsForward(int tileIndex) {
-
+	private void makeTransitionsForward(int tileIndex) {
+		// TODO Transition any enemies beyond the left of the tile at the given index to the end of tile at the previous index
 	}
 }
