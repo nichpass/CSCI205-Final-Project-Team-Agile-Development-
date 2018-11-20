@@ -47,8 +47,7 @@ public class SurvivalTimer {
      */
     private void updateTimeSurvived(){
         double curTime = System.nanoTime();
-        double elapsedTime = (curTime - startTime) * 1e9;
-        this.timeSurvived = curTime - elapsedTime;
+        this.timeSurvived = (curTime - startTime) * 1e9;
     }
 
     /**
@@ -59,7 +58,11 @@ public class SurvivalTimer {
         this.updateTime();
     }
 
-    public StringProperty getTimerStringProperty(){
+    public StringProperty getTimerAsStringProperty(){
         return this.timerStringProperty;
+    }
+
+    public double getTimerInSeconds(){
+        return this.timeSurvived;
     }
 }

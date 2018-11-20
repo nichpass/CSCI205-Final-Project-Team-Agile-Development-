@@ -20,17 +20,23 @@ public class EnemySpawner {
     /** An array of the different types of enemies that exist **/
     private Enemy[] enemyTypes;
 
-    /** The amount of time survived (in seconds) **/
-    private double survivalTime;
-
-    public EnemySpawner(double survivalTime, Enemy[] enemyTypes){
+    public EnemySpawner(Enemy[] enemyTypes){
         this.timeSinceLastSpawn = 0;
-        this.survivalTime = survivalTime;
         this.enemyTypes = enemyTypes;
     }
 
-    public Enemy trySpawn(){
-        this.updateRate = this.survivalTime / 1000;
+    /**
+     * Updates the spawn rate and potentially spawns a new enemy
+     * @param secondsSurvived The amount of seconds the player has survived for
+     */
+    public void update(double secondsSurvived){
+        //TODO somehow get the returned enemy variable from trySpawn() back into the game to be displayed and used
+        trySpawn(secondsSurvived);
+        updateUpdateRate(secondsSurvived);
+    }
+
+    public Enemy trySpawn(double secondsSurvived){
+        this.updateRate = secondsSurvived / 1000;
         if (shouldSpawn()){
             return enemyToSpawn();
         } else {
@@ -39,7 +45,10 @@ public class EnemySpawner {
     }
 
     /**
-     *
+     * Checks how much time has passed since the last spawn:
+     * if <code>timeSinceLastSpawn</code> > <code>updatePeriodUpperBound</code> then return true,
+     * if <code>timeSinceLastSpawn</code> < <code>updatePeriodLowerBound</code> then return true,
+     * else there is a percent chance of spawning based on <code>updateRate</code>
      * @return
      */
     public boolean shouldSpawn(){
@@ -56,6 +65,14 @@ public class EnemySpawner {
                 return false;
             }
         }
+    }
+
+    /**
+     * Updates the rate at which spawning increases based on the amount of time the player has survived
+     * @param secondsSurvived
+     */
+    public void updateUpdateRate(double secondsSurvived){
+        this.updateRate = secondsSurvived / 1000;
     }
 
     /**
