@@ -30,6 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import towerdefense.game.Difficulty;
+import towerdefense.game.SurvivalTimer;
 import towerdefense.game.TowerDefenseGame;
 
 /**
@@ -71,6 +72,15 @@ public class TowerDefenseUIController {
 	private Difficulty selectedDifficulty;
 
 	private TowerDefenseGame game;
+
+	private SurvivalTimer survivalTimer;
+
+	public TowerDefenseUIController(){
+		this.survivalTimer = new SurvivalTimer();
+		//TODO Put the update method from the SurvivalTimer object inside of the game loop
+		this.survivalTimeLabel.textProperty().bind(this.survivalTimer.getTimerStringProperty());
+
+	}
 
 	@FXML
 	private void onEasyDifficultyLabelClick(MouseEvent event) {
