@@ -60,8 +60,8 @@ public class EnemySpawner {
 
 	/**
 	 * Checks how much time has passed since the last spawn: if
-	 * <code>timeSinceLastSpawn</code> > <code>updatePeriodUpperBound</code>
-	 * then return true, if <code>timeSinceLastSpawn</code> <
+	 * <code>timeSinceLastSpawn</code> &lt; <code>updatePeriodUpperBound</code>
+	 * then return true, if <code>timeSinceLastSpawn</code> &lt;
 	 * <code>updatePeriodLowerBound</code> then return true, else there is a
 	 * percent chance of spawning based on <code>updateRate</code>
 	 *
