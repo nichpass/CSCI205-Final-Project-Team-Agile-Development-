@@ -52,7 +52,15 @@ public class Tile {
 	 * with an enemy.</li></ol>
 	 */
 	public void update() {
-		enemies.add(new Enemy(10, 100, 10));
+		if (tower != null) {
+			Projectile p = tower.update();
+			if (p != null) {
+				projectiles.add(p);
+			}
+		}
+		for (Projectile projectile : projectiles) {
+			projectile.update();
+		}
 		for (Enemy enemy : enemies) {
 			enemy.update();
 		}
@@ -143,7 +151,9 @@ public class Tile {
 	public Node getDrawableNode() {
 		Pane tile = new Pane();
 		for (Enemy enemy : enemies) {
-			tile.getChildren().add(enemy.getDrawableNode());
+			Node enemyNode = enemy.getDrawableNode();
+
+			tile.getChildren().add(enemyNode);
 		}
 		for (Projectile projectile : projectiles) {
 			tile.getChildren().add(projectile.getDrawableNode());

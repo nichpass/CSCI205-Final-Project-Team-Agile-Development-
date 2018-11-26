@@ -15,8 +15,12 @@
  */
 package towerdefense.game;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -24,13 +28,13 @@ import javafx.scene.shape.Rectangle;
  * @author rsf
  */
 public class Enemy {
-	
+
 	private final int damagePerTick;
 	private final int movementPerTick;
 	private int health;
 	private final int maxHealth;
 	private int positionInTile = TowerDefenseGame.TILE_SIZE;
-	private Node drawableItem = new Rectangle(10, 10, Color.RED);
+	private final Node drawableItem = new Rectangle(10, 30, Color.RED);
 
 	/**
 	 * Constructs a new enemy with the given parameters.
@@ -46,6 +50,7 @@ public class Enemy {
 		this.movementPerTick = movementPerTick;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
+
 	}
 
 	/**
@@ -118,9 +123,39 @@ public class Enemy {
 	 * @return a Node that is a parent of all UI elements of the enemy
 	 */
 	public Node getDrawableNode() {
-		this.drawableItem.setLayoutX(
+		VBox enemyBox = new VBox();
+		Pane healthBarPane = new Pane();
+		// The dimensions of the border element
+		int healthBarHeight = TowerDefenseGame.TILE_PIXEL_SIZE / 10;
+		int healthBarWidth = TowerDefenseGame.TILE_PIXEL_SIZE / 5;
+		Rectangle healthBarBorder = new Rectangle(healthBarWidth,
+												  healthBarHeight, Color.WHITE);
+		healthBarBorder.setStroke(Color.BLACK);
+		// Determining color of the fill component of health bar
+		Paint healthBarColor = Color.GREEN;
+		if (health < 0.7 * maxHealth) {
+			healthBarColor = Color.DARKGOLDENROD;
+		}
+		if (health < 0.3 * maxHealth) {
+			healthBarColor = Color.RED;
+		}
+		// Creating health bar element based on previous setup
+		Rectangle healthBarFill = new Rectangle();
+		healthBarFill.setLayoutX(1);
+		healthBarFill.setLayoutY(1);
+		healthBarFill.setWidth((healthBarWidth - 2) * (health * 1.0 / maxHealth));
+		healthBarFill.setHeight(healthBarHeight - 2);
+		healthBarFill.setFill(healthBarColor);
+		healthBarPane.getChildren().add(healthBarBorder);
+		healthBarPane.getChildren().add(healthBarFill);
+		enemyBox.getChildren().add(healthBarPane);
+		enemyBox.getChildren().add(this.drawableItem);
+		enemyBox.setLayoutX(
 				this.positionInTile * 1.0 / TowerDefenseGame.TILE_SIZE * TowerDefenseGame.TILE_PIXEL_SIZE);
-		this.drawableItem.setLayoutY(TowerDefenseGame.TILE_PIXEL_SIZE / 2);
-		return this.drawableItem;
+		enemyBox.setLayoutY(0);
+		enemyBox.setAlignment(Pos.CENTER);
+		enemyBox.setSpacing(20);
+		enemyBox.setPrefHeight(TowerDefenseGame.TILE_PIXEL_SIZE);
+		return enemyBox;
 	}
 }

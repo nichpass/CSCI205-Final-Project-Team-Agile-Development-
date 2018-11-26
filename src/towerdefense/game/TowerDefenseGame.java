@@ -75,6 +75,10 @@ public class TowerDefenseGame {
 		gameBoard.update();
 	}
 
+	public void spawnEnemyAt(int rowIndex) {
+		gameBoard.spawnEnemyAtRow(new Enemy(1, 3, 10), rowIndex);
+	}
+
 	/**
 	 * Returns a Node that will allow the entire game to be drawn in one step.
 	 *

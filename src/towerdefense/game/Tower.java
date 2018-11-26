@@ -15,8 +15,13 @@
  */
 package towerdefense.game;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -24,7 +29,7 @@ import javafx.scene.shape.Rectangle;
  * @author rsf
  */
 public class Tower {
-
+	
 	private final Projectile projectileShot;
 	private final int ticksBetweenShots;
 	private int ticksToNextShot;
@@ -97,6 +102,42 @@ public class Tower {
 	 * @return a Node that is a parent of all UI elements of the tower
 	 */
 	public Node getDrawableNode() {
-		return this.drawableItem;
+		HBox towerBox = new HBox();
+		VBox verticalBox = new VBox();
+		Pane healthBarPane = new Pane();
+		// The dimensions of the border element
+		int healthBarHeight = TowerDefenseGame.TILE_PIXEL_SIZE / 10;
+		int healthBarWidth = TowerDefenseGame.TILE_PIXEL_SIZE / 5;
+		Rectangle healthBarBorder = new Rectangle(healthBarWidth,
+												  healthBarHeight, Color.WHITE);
+		healthBarBorder.setStroke(Color.BLACK);
+		// Determining color of the fill component of health bar
+		Paint healthBarColor = Color.GREEN;
+		if (health < 0.7 * maxHealth) {
+			healthBarColor = Color.DARKGOLDENROD;
+		}
+		if (health < 0.3 * maxHealth) {
+			healthBarColor = Color.RED;
+		}
+		// Creating health bar element based on previous setup
+		Rectangle healthBarFill = new Rectangle();
+		healthBarFill.setLayoutX(1);
+		healthBarFill.setLayoutY(1);
+		healthBarFill.setWidth((healthBarWidth - 2) * (health * 1.0 / maxHealth));
+		healthBarFill.setHeight(healthBarHeight - 2);
+		healthBarFill.setFill(healthBarColor);
+		healthBarPane.getChildren().add(healthBarBorder);
+		healthBarPane.getChildren().add(healthBarFill);
+		verticalBox.getChildren().add(healthBarPane);
+		verticalBox.getChildren().add(this.drawableItem);
+		verticalBox.setLayoutX(TowerDefenseGame.TILE_PIXEL_SIZE / 2);
+		verticalBox.setLayoutY(0);
+		verticalBox.setAlignment(Pos.CENTER);
+		verticalBox.setSpacing(20);
+		verticalBox.setPrefHeight(TowerDefenseGame.TILE_PIXEL_SIZE);
+		towerBox.setPrefWidth(TowerDefenseGame.TILE_PIXEL_SIZE);
+		towerBox.getChildren().add(verticalBox);
+		towerBox.setAlignment(Pos.CENTER);
+		return towerBox;
 	}
 }

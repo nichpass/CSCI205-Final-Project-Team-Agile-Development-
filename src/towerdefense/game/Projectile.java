@@ -15,7 +15,9 @@
  */
 package towerdefense.game;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -102,6 +104,13 @@ public class Projectile {
 	 * @return a Node that is a parent of all UI elements of the projectile
 	 */
 	public Node getDrawableNode() {
-		return this.drawableItem;
+		VBox projectileBox = new VBox();
+		projectileBox.getChildren().add(this.drawableItem);
+		projectileBox.setLayoutX(
+				this.positionInTile * 1.0 / TowerDefenseGame.TILE_SIZE * TowerDefenseGame.TILE_PIXEL_SIZE);
+		projectileBox.setLayoutY(0);
+		projectileBox.setAlignment(Pos.CENTER);
+		projectileBox.setPrefHeight(TowerDefenseGame.TILE_PIXEL_SIZE);
+		return projectileBox;
 	}
 }

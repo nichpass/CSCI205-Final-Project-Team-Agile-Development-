@@ -92,12 +92,14 @@ public class Board {
 	 */
 	public Node getDrawableNode() {
 		VBox rows = new VBox();
-		rows.setBorder(new Border(new BorderStroke(Color.BLACK,
+		rows.setBorder(new Border(new BorderStroke(Color.RED,
 												   BorderStrokeStyle.SOLID,
 												   CornerRadii.EMPTY,
 												   BorderWidths.DEFAULT)));
 		for (TileRow row : gameRows) {
-			rows.getChildren().add(row.getDrawableNode());
+			Node rowNode = row.getDrawableNode();
+
+			rows.getChildren().add(rowNode);
 		}
 		return rows;
 	}

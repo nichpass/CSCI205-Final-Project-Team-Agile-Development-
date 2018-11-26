@@ -16,6 +16,7 @@
 package towerdefense.game;
 
 import java.util.ArrayList;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -30,7 +31,7 @@ import javafx.scene.paint.Color;
  * @author rsf
  */
 public class TileRow {
-
+	
 	private ArrayList<Tile> tilesInRow = new ArrayList();
 	private int livesLostInRow = 0;
 
@@ -80,11 +81,11 @@ public class TileRow {
 	public boolean tryAddTowerAt(Tower towerToAdd, int tileIndex) {
 		return tilesInRow.get(tileIndex).tryAddTower(towerToAdd);
 	}
-
+	
 	private void makeTransitionsBackward(int tileIndex) {
 		// TODO Transition any projectiles beyond the right of the tile at the given index to the start of tile at the next index.
 	}
-
+	
 	private void makeTransitionsForward(int tileIndex) {
 		// TODO Transition any enemies beyond the left of the tile at the given index to the end of tile at the previous index
 	}
@@ -96,14 +97,14 @@ public class TileRow {
 	 */
 	public Node getDrawableNode() {
 		HBox row = new HBox();
-
-		row.setBorder(new Border(new BorderStroke(Color.BLACK,
+		row.setBorder(new Border(new BorderStroke(Color.BLUE,
 												  BorderStrokeStyle.SOLID,
 												  CornerRadii.EMPTY,
 												  BorderWidths.DEFAULT)));
 		for (Tile tile : tilesInRow) {
 			row.getChildren().add(tile.getDrawableNode());
 		}
+		row.setAlignment(Pos.CENTER);
 		return row;
 	}
 }

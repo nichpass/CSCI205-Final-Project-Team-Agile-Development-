@@ -15,6 +15,7 @@
  */
 package towerdefense.mvc;
 
+import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +33,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import towerdefense.game.Difficulty;
+import towerdefense.game.Projectile;
+import towerdefense.game.Tower;
 import towerdefense.game.TowerDefenseGame;
 
 /**
@@ -122,8 +125,10 @@ public class TowerDefenseUIController extends AnimationTimer {
 		menuScreen.setVisible(false);
 		gameScreen.setMouseTransparent(false);
 		gameScreen.setVisible(true);
-		game.update();
-		draw();
+		game.tryBuyTower(new Tower(new Projectile(10, 5), 60, 10), 0, 0);
+		game.tryBuyTower(new Tower(new Projectile(10, 5), 60, 10), 1, 0);
+		game.tryBuyTower(new Tower(new Projectile(10, 5), 60, 10), 2, 0);
+		this.start();
 	}
 
 	@FXML
@@ -164,7 +169,14 @@ public class TowerDefenseUIController extends AnimationTimer {
 	 */
 	@Override
 	public void handle(long now) {
-
+		if ((60 * (now - lastFrameTime)) / 1000000000 > 0) {
+			if (new Random().nextInt(60) == 0) {
+				game.spawnEnemyAt(new Random().nextInt(3));
+			}
+			game.update();
+			draw();
+			lastFrameTime = now;
+		}
 	}
 
 	private void draw() {
