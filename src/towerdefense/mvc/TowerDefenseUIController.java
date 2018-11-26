@@ -89,10 +89,10 @@ public class TowerDefenseUIController extends AnimationTimer {
     private SurvivalTimer survivalTimer;
 
     public TowerDefenseUIController() {
-        this.survivalTimer = new SurvivalTimer();
-        //TODO Put the update method from the SurvivalTimer object inside of the game loop
-        this.survivalTimeLabel.textProperty().bind(
-            this.survivalTimer.getTimerAsStringProperty());
+//        this.survivalTimer = new SurvivalTimer();
+//        //TODO Put the update method from the SurvivalTimer object inside of the game loop
+//        this.survivalTimeLabel.textProperty().bind(
+//            this.survivalTimer.getTimerAsStringProperty());
 
     }
 
