@@ -109,7 +109,7 @@ public class Tile {
         for (Projectile project : projectiles) {
             if () //TO DO: finish this
             {
-
+                //what issues does it have with this
             }
         }
 
