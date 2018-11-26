@@ -35,7 +35,7 @@ public class TowerDefenseGame {
     private final Difficulty difficulty;
     private Tower selectedTower = null;
     private final Board gameBoard = new Board(NUM_ROWS, NUM_TILES_PER_ROW);
-    private int playerMoney = 0;
+    private MoneyHandler moneyHandler;
     private int playerScore = 0;
 
     /**
@@ -45,6 +45,7 @@ public class TowerDefenseGame {
      */
     public TowerDefenseGame(Difficulty difficulty) {
         this.difficulty = difficulty;
+        this.moneyHandler = new MoneyHandler();
     }
 
     /**
@@ -96,7 +97,7 @@ public class TowerDefenseGame {
 
     private boolean canBuyTower(Tower towerToBuy) {
         // TODO expose tower cost, check against current money
-        return towerToBuy.getCost() <= playerMoney;
+        return moneyHandler.canBuyTower(towerToBuy);
     }
 
     /**
