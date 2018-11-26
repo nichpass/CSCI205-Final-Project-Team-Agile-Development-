@@ -16,6 +16,8 @@
 package towerdefense.game;
 
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  *
@@ -76,7 +78,11 @@ public class TowerDefenseGame {
 	}
 
 	public void spawnEnemyAt(int rowIndex) {
-		gameBoard.spawnEnemyAtRow(new Enemy(1, 3, 10), rowIndex);
+		gameBoard.spawnEnemyAtRow(new Enemy(1, 3, 10,
+											() -> new Rectangle(10, 30,
+																Color.RED)),
+								  rowIndex
+		);
 	}
 
 	/**

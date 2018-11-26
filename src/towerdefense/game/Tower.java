@@ -15,6 +15,7 @@
  */
 package towerdefense.game;
 
+import java.util.function.Supplier;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
@@ -29,13 +30,13 @@ import javafx.scene.shape.Rectangle;
  * @author rsf
  */
 public class Tower {
-	
+
 	private final Projectile projectileShot;
 	private final int ticksBetweenShots;
 	private int ticksToNextShot;
 	private int health;
 	private final int maxHealth;
-	private Node drawableItem = new Rectangle(10, 10, Color.BLACK);
+	private Supplier<Node> drawableItemGenerator;
 
 	/**
 	 * Constructs a new tower with the given parameters.
@@ -44,13 +45,17 @@ public class Tower {
 	 * @param ticksBetweenShots the number of game ticks between
 	 * {@link Projectile} spawns
 	 * @param maxHealth the maximum health of the tower
+	 * @param drawableItemGenerator a function to generate a copy of the visual
+	 * object representing the tower
 	 */
-	public Tower(Projectile projectileShot, int ticksBetweenShots, int maxHealth) {
+	public Tower(Projectile projectileShot, int ticksBetweenShots, int maxHealth,
+				 Supplier<Node> drawableItemGenerator) {
 		this.projectileShot = projectileShot;
 		this.ticksBetweenShots = ticksBetweenShots;
 		this.ticksToNextShot = ticksBetweenShots;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
+		this.drawableItemGenerator = drawableItemGenerator;
 	}
 
 	/**
@@ -64,7 +69,7 @@ public class Tower {
 		this.ticksToNextShot = templateTower.ticksToNextShot;
 		this.maxHealth = templateTower.maxHealth;
 		this.health = templateTower.health;
-		this.drawableItem = templateTower.drawableItem;
+		this.drawableItemGenerator = templateTower.drawableItemGenerator;
 	}
 
 	/**
@@ -129,7 +134,7 @@ public class Tower {
 		healthBarPane.getChildren().add(healthBarBorder);
 		healthBarPane.getChildren().add(healthBarFill);
 		verticalBox.getChildren().add(healthBarPane);
-		verticalBox.getChildren().add(this.drawableItem);
+		verticalBox.getChildren().add(this.drawableItemGenerator.get());
 		verticalBox.setLayoutX(TowerDefenseGame.TILE_PIXEL_SIZE / 2);
 		verticalBox.setLayoutY(0);
 		verticalBox.setAlignment(Pos.CENTER);

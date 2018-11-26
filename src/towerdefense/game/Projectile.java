@@ -15,11 +15,10 @@
  */
 package towerdefense.game;
 
+import java.util.function.Supplier;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 /**
  *
@@ -30,7 +29,7 @@ public class Projectile {
 	private final int damageOnContact;
 	private final int movementPerTick;
 	private int positionInTile = TowerDefenseGame.TILE_SIZE / 2;
-	private Node drawableItem = new Circle(10, Color.BLACK);
+	private Supplier<Node> drawableItemGenerator;
 
 	/**
 	 * Constructs a new projectile with the given parameters.
@@ -39,10 +38,14 @@ public class Projectile {
 	 * on contact
 	 * @param movementPerTick the increment of movement based on which the
 	 * projectile will move each tick
+	 * @param drawableItemGenerator a function to generate a copy of the visual
+	 * object representing the projectile
 	 */
-	public Projectile(int damageOnContact, int movementPerTick) {
+	public Projectile(int damageOnContact, int movementPerTick,
+					  Supplier<Node> drawableItemGenerator) {
 		this.damageOnContact = damageOnContact;
 		this.movementPerTick = movementPerTick;
+		this.drawableItemGenerator = drawableItemGenerator;
 	}
 
 	/**
@@ -53,7 +56,7 @@ public class Projectile {
 	public Projectile(Projectile templateProjectile) {
 		this.damageOnContact = templateProjectile.damageOnContact;
 		this.movementPerTick = templateProjectile.movementPerTick;
-		this.drawableItem = templateProjectile.drawableItem;
+		this.drawableItemGenerator = templateProjectile.drawableItemGenerator;
 	}
 
 	/**
@@ -105,7 +108,7 @@ public class Projectile {
 	 */
 	public Node getDrawableNode() {
 		VBox projectileBox = new VBox();
-		projectileBox.getChildren().add(this.drawableItem);
+		projectileBox.getChildren().add(this.drawableItemGenerator.get());
 		projectileBox.setLayoutX(
 				this.positionInTile * 1.0 / TowerDefenseGame.TILE_SIZE * TowerDefenseGame.TILE_PIXEL_SIZE);
 		projectileBox.setLayoutY(0);

@@ -31,6 +31,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import towerdefense.game.Difficulty;
 import towerdefense.game.Projectile;
@@ -125,9 +128,24 @@ public class TowerDefenseUIController extends AnimationTimer {
 		menuScreen.setVisible(false);
 		gameScreen.setMouseTransparent(false);
 		gameScreen.setVisible(true);
-		game.tryBuyTower(new Tower(new Projectile(10, 5), 60, 10), 0, 0);
-		game.tryBuyTower(new Tower(new Projectile(10, 5), 60, 10), 1, 0);
-		game.tryBuyTower(new Tower(new Projectile(10, 5), 60, 10), 2, 0);
+		game.tryBuyTower(new Tower(new Projectile(10, 5, () -> new Circle(10,
+																		  Color.BLACK)
+		),
+								   60, 10, () -> new Rectangle(10, 10,
+															   Color.BLACK)
+		), 0, 0);
+		game.tryBuyTower(new Tower(new Projectile(10, 5, () -> new Circle(10,
+																		  Color.BLACK)
+		),
+								   60, 10, () -> new Rectangle(10, 10,
+															   Color.BLACK)
+		), 1, 0);
+		game.tryBuyTower(new Tower(new Projectile(10, 5, () -> new Circle(10,
+																		  Color.BLACK)
+		),
+								   60, 10, () -> new Rectangle(10, 10,
+															   Color.BLACK)
+		), 2, 0);
 		this.start();
 	}
 

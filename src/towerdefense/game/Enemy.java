@@ -15,6 +15,7 @@
  */
 package towerdefense.game;
 
+import java.util.function.Supplier;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -34,7 +35,7 @@ public class Enemy {
 	private int health;
 	private final int maxHealth;
 	private int positionInTile = TowerDefenseGame.TILE_SIZE;
-	private final Node drawableItem = new Rectangle(10, 30, Color.RED);
+	private final Supplier<Node> drawableItemGenerator;
 
 	/**
 	 * Constructs a new enemy with the given parameters.
@@ -44,13 +45,15 @@ public class Enemy {
 	 * @param movementPerTick the increment of movement based on which the enemy
 	 * will move each tick
 	 * @param maxHealth the maximum health of the enemy
+	 * @param drawableItemGenerator
 	 */
-	public Enemy(int damagePerTick, int movementPerTick, int maxHealth) {
+	public Enemy(int damagePerTick, int movementPerTick, int maxHealth,
+				 Supplier<Node> drawableItemGenerator) {
 		this.damagePerTick = damagePerTick;
 		this.movementPerTick = movementPerTick;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
-
+		this.drawableItemGenerator = drawableItemGenerator;
 	}
 
 	/**
@@ -63,6 +66,7 @@ public class Enemy {
 		this.movementPerTick = templateEnemy.damagePerTick;
 		this.maxHealth = templateEnemy.maxHealth;
 		this.health = templateEnemy.health;
+		this.drawableItemGenerator = templateEnemy.drawableItemGenerator;
 	}
 
 	/**
@@ -149,7 +153,7 @@ public class Enemy {
 		healthBarPane.getChildren().add(healthBarBorder);
 		healthBarPane.getChildren().add(healthBarFill);
 		enemyBox.getChildren().add(healthBarPane);
-		enemyBox.getChildren().add(this.drawableItem);
+		enemyBox.getChildren().add(this.drawableItemGenerator.get());
 		enemyBox.setLayoutX(
 				this.positionInTile * 1.0 / TowerDefenseGame.TILE_SIZE * TowerDefenseGame.TILE_PIXEL_SIZE);
 		enemyBox.setLayoutY(0);
