@@ -52,18 +52,18 @@ public class Tile {
 	 * with an enemy.</li></ol>
 	 */
 	public void update() {
-		if (tower != null) {
-			Projectile p = tower.update();
-			if (p != null) {
-				projectiles.add(p);
-			}
-		}
+		trySpawnProjectile();
+		checkCollisions();
 		for (Projectile projectile : projectiles) {
 			projectile.update();
 		}
+		checkCollisions();
 		for (Enemy enemy : enemies) {
-			enemy.update();
+			if (enemy.update(tower)) {
+				tower = null;
+			}
 		}
+		checkCollisions();
 	}
 
 	/**
@@ -73,15 +73,14 @@ public class Tile {
 	 * passed the left side of the tile
 	 */
 	public ArrayList<Enemy> popEnemies() {
-		ArrayList<Enemy> poppedEn = new ArrayList<>();
-		for (Enemy en : enemies) {
-			if (en.fixPosition()) {
-				enemies.remove(en);
-				poppedEn.add(en);
+		ArrayList<Enemy> poppedEnemies = new ArrayList<>();
+		for (Enemy enemy : enemies) {
+			if (enemy.fixPosition()) {
+				poppedEnemies.add(enemy);
 			}
 		}
-
-		return poppedEn;
+		this.enemies.removeAll(poppedEnemies);
+		return poppedEnemies;
 	}
 
 	/**
@@ -91,8 +90,14 @@ public class Tile {
 	 * that passed the right side of the tile
 	 */
 	public ArrayList<Projectile> popProjectiles() {
-		// TODO pop enemies with local position > TowerDefenseGame.TILE_WIDTH and return
-		return null;
+		ArrayList<Projectile> poppedProjectiles = new ArrayList();
+		for (Projectile projectile : projectiles) {
+			if (projectile.fixPosition()) {
+				poppedProjectiles.add(projectile);
+			}
+		}
+		this.projectiles.removeAll(poppedProjectiles);
+		return poppedProjectiles;
 	}
 
 	/**
@@ -103,9 +108,6 @@ public class Tile {
 	 */
 	public void pushEnemies(ArrayList<Enemy> enemies) {
 		this.enemies.addAll(enemies);
-		for (Enemy enemy : enemies) {
-
-		}
 	}
 
 	/**
@@ -116,18 +118,25 @@ public class Tile {
 	 */
 	public void pushProjectiles(ArrayList<Projectile> projectiles) {
 		this.projectiles.addAll(projectiles);
-		for (Projectile projectile : projectiles) {
-
-		}
 	}
 
-	private void handleCollisions() {
-		for (Projectile project : projectiles) {
-			if (true) //TO DO: finish this
-			{
-				//what issues does it have with this
+	private void checkCollisions() {
+		ArrayList<Projectile> collidedProjectiles = new ArrayList();
+		for (Projectile projectile : projectiles) {
+			ArrayList<Enemy> killedEnemies = new ArrayList();
+			for (Enemy enemy : enemies) {
+				if (Math.abs(
+						projectile.getPositionInTile() - enemy.getPositionInTile()) < TowerDefenseGame.COLLISION_THRESHOLD) {
+					collidedProjectiles.add(projectile);
+					if (projectile.damageEnemy(enemy)) {
+						killedEnemies.add(enemy);
+					}
+					break;
+				}
 			}
+			enemies.removeAll(killedEnemies);
 		}
+		projectiles.removeAll(collidedProjectiles);
 	}
 
 	/**

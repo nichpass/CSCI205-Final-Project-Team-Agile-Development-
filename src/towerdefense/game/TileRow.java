@@ -51,8 +51,11 @@ public class TileRow {
 	 * appropriate while passing the rest of the computation onto the tile.
 	 */
 	public void update() {
-		for (Tile tile : tilesInRow) {
-			tile.update();
+		for (int i = 0; i < tilesInRow.size(); i++) {
+			Tile currentTile = tilesInRow.get(i);
+			currentTile.update();
+			makeTransitionsRight(i);
+			makeTransitionsLeft(i);
 		}
 	}
 
@@ -100,8 +103,8 @@ public class TileRow {
 		return tilesInRow.get(tileIndex).tryAddTower(towerToAdd);
 	}
 
-	private void makeTransitionsBackward(int tileIndex) {
-		if (tileIndex + 1 == tilesInRow.size()) {
+	private void makeTransitionsRight(int tileIndex) {
+		if (tileIndex == tilesInRow.size() - 1) {
 			tilesInRow.get(tileIndex).popProjectiles();
 		}
 		else {
@@ -111,8 +114,8 @@ public class TileRow {
 
 	}
 
-	private void makeTransitionsForward(int tileIndex) {
-		if (tileIndex - 1 == 0) {
+	private void makeTransitionsLeft(int tileIndex) {
+		if (tileIndex == 0) {
 			livesLostInRow += tilesInRow.get(tileIndex).popEnemies().size();
 		}
 		else {
