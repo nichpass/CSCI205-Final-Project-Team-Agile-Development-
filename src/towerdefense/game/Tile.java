@@ -44,6 +44,7 @@ public class Tile {
      * with an enemy.</li></ol>
      */
     public void update() {
+        //please help
         // TODO update state of Tile based on rules in above documentation
     }
 
@@ -54,8 +55,15 @@ public class Tile {
      * passed the left side of the tile
      */
     public ArrayList<Enemy> popEnemies() {
-        // TODO pop enemies with local position < 0 and return
-        return null;
+        ArrayList<Enemy> poppedEn = new ArrayList<>();
+        for (Enemy en : enemies) {
+            if (en.fixPosition()) {
+                enemies.remove(en);
+                poppedEn.add(en);
+            }
+        }
+
+        return poppedEn;
     }
 
     /**
