@@ -26,7 +26,7 @@ public class Tower {
     private int ticksToNextShot;
     private int health;
     private final int maxHealth;
-    final int cost;
+    private final int cost;
 
     /**
      * Constructs a new tower with the given parameters.
@@ -88,5 +88,9 @@ public class Tower {
     public boolean takeDamage(double damageToTake) {
         this.health -= damageToTake;
         return this.health <= 0;
+    }
+
+    public int getCost(){
+        return this.cost;
     }
 }

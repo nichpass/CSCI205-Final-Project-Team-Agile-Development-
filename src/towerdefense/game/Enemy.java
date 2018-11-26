@@ -26,6 +26,7 @@ public class Enemy {
 	private int health;
 	private final int maxHealth;
 	private int positionInTile = TowerDefenseGame.TILE_WIDTH;
+	private double killBonus;
 
 	/**
 	 * Constructs a new enemy with the given parameters.
@@ -36,11 +37,12 @@ public class Enemy {
 	 * will move each tick
 	 * @param maxHealth the maximum health of the enemy
 	 */
-	public Enemy(int damagePerTick, int movementPerTick, int maxHealth) {
+	public Enemy(int damagePerTick, int movementPerTick, int maxHealth, double killBonus) {
 		this.damagePerTick = damagePerTick;
 		this.movementPerTick = movementPerTick;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
+		this.killBonus = killBonus;
 	}
 
 	/**
@@ -105,5 +107,9 @@ public class Enemy {
 		int oldPosition = this.positionInTile;
 		this.positionInTile = (this.positionInTile % TowerDefenseGame.TILE_WIDTH);
 		return this.positionInTile != oldPosition;
+	}
+
+	public double getKillBonus(){
+		return this.killBonus;
 	}
 }
