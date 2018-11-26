@@ -73,8 +73,15 @@ public class Tile {
 	 * passed the left side of the tile
 	 */
 	public ArrayList<Enemy> popEnemies() {
-		// TODO pop enemies with local position < 0 and return
-		return null;
+		ArrayList<Enemy> poppedEn = new ArrayList<>();
+		for (Enemy en : enemies) {
+			if (en.fixPosition()) {
+				enemies.remove(en);
+				poppedEn.add(en);
+			}
+		}
+
+		return poppedEn;
 	}
 
 	/**
@@ -97,7 +104,7 @@ public class Tile {
 	public void pushEnemies(ArrayList<Enemy> enemies) {
 		this.enemies.addAll(enemies);
 		for (Enemy enemy : enemies) {
-			// TODO Adjust enemy position based on TowerDefenseGame.TILE_WIDTH (done in Enemy?)
+
 		}
 	}
 
@@ -110,19 +117,15 @@ public class Tile {
 	public void pushProjectiles(ArrayList<Projectile> projectiles) {
 		this.projectiles.addAll(projectiles);
 		for (Projectile projectile : projectiles) {
-			// TODO Adjust projectile position based on TowerDefenseGame.TILE_WIDTH (done in Projectile?)
+
 		}
 	}
 
 	private void handleCollisions() {
-		// TODO Iterate over projectiles, see if they hit any enemies
-	}
-
-	private void trySpawnProjectile() {
-		if (tower != null) {
-			Projectile p = tower.update();
-			if (p != null) {
-				projectiles.add(p);
+		for (Projectile project : projectiles) {
+			if (true) //TO DO: finish this
+			{
+				//what issues does it have with this
 			}
 		}
 	}
@@ -169,5 +172,14 @@ public class Tile {
 												   CornerRadii.EMPTY,
 												   BorderWidths.DEFAULT)));
 		return tile;
+	}
+
+	private void trySpawnProjectile() {
+		if (tower != null) {
+			Projectile p = tower.update();
+			if (p != null) {
+				projectiles.add(p);
+			}
+		}
 	}
 }

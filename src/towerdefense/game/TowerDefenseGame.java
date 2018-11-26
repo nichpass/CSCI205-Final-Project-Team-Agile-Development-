@@ -104,6 +104,9 @@ public class TowerDefenseGame {
      * Spawns enemies based on the current state of the game.
      */
     private void spawnEnemies() {
+        //if enemy has reached end or a certain amount of time has passed spawn another enenemy
+        //certain enemies depending on certain levels?
+        //time??
         // TODO create and implement algorithm for spawning enemies based on list of enemies provided (add spawning frequency as attribute? relate to difficulty? need to think about before implementation
     }
 }

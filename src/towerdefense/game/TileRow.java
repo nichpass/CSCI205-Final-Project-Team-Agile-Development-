@@ -31,7 +31,7 @@ import javafx.scene.paint.Color;
  * @author rsf
  */
 public class TileRow {
-	
+
 	private ArrayList<Tile> tilesInRow = new ArrayList();
 	private int livesLostInRow = 0;
 
@@ -68,29 +68,6 @@ public class TileRow {
 	}
 
 	/**
-	 * Assigns the passed {@link Tower} object to the {@link Tile} object at the
-	 * specified index if it is not already associated with a {@link Tower}
-	 * object.
-	 *
-	 * @param towerToAdd the {@link Tower} to be associated with the tile
-	 * @param tileIndex the index of the {@link Tile} to which the {@link Tower}
-	 * should be added
-	 * @return true if the {@link Tile} did not already have a tower on it (i.e.
-	 * the tower was added); false otherwise
-	 */
-	public boolean tryAddTowerAt(Tower towerToAdd, int tileIndex) {
-		return tilesInRow.get(tileIndex).tryAddTower(towerToAdd);
-	}
-	
-	private void makeTransitionsBackward(int tileIndex) {
-		// TODO Transition any projectiles beyond the right of the tile at the given index to the start of tile at the next index.
-	}
-	
-	private void makeTransitionsForward(int tileIndex) {
-		// TODO Transition any enemies beyond the left of the tile at the given index to the end of tile at the previous index
-	}
-
-	/**
 	 * Returns a Node that will allow the entire row to be drawn in one step.
 	 *
 	 * @return a Node that is a parent of all UI elements of the row
@@ -106,5 +83,42 @@ public class TileRow {
 		}
 		row.setAlignment(Pos.CENTER);
 		return row;
+	}
+
+	/**
+	 * Assigns the passed {@link Tower} object to the {@link Tile} object at the
+	 * specified index if it is not already associated with a {@link Tower}
+	 * object.
+	 *
+	 * @param towerToAdd the {@link Tower} to be associated with the tile
+	 * @param tileIndex the index of the {@link Tile} to which the {@link Tower}
+	 * should be added
+	 * @return true if the {@link Tile} did not already have a tower on it (i.e.
+	 * the tower was added); false otherwise
+	 */
+	public boolean tryAddTowerAt(Tower towerToAdd, int tileIndex) {
+		return tilesInRow.get(tileIndex).tryAddTower(towerToAdd);
+	}
+
+	private void makeTransitionsBackward(int tileIndex) {
+		if (tileIndex + 1 == tilesInRow.size()) {
+			tilesInRow.get(tileIndex).popProjectiles();
+		}
+		else {
+			tilesInRow.get(tileIndex + 1).pushProjectiles(tilesInRow.get(
+					tileIndex).popProjectiles());
+		}
+
+	}
+
+	private void makeTransitionsForward(int tileIndex) {
+		if (tileIndex - 1 == 0) {
+			livesLostInRow += tilesInRow.get(tileIndex).popEnemies().size();
+		}
+		else {
+			tilesInRow.get(tileIndex - 1).pushEnemies(
+					tilesInRow.get(tileIndex).popEnemies());
+		}
+
 	}
 }
