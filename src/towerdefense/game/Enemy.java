@@ -157,8 +157,8 @@ public class Enemy {
 		enemyBox.setLayoutX(
 				this.positionInTile * 1.0 / TowerDefenseGame.TILE_SIZE * TowerDefenseGame.TILE_PIXEL_SIZE);
 		enemyBox.setLayoutY(0);
-		enemyBox.setAlignment(Pos.CENTER);
-		enemyBox.setSpacing(20);
+		enemyBox.setAlignment(Pos.TOP_CENTER);
+		enemyBox.setSpacing(TowerDefenseGame.TILE_PIXEL_SIZE / 5);
 		enemyBox.setPrefHeight(TowerDefenseGame.TILE_PIXEL_SIZE);
 		return enemyBox;
 	}

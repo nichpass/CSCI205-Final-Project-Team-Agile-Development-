@@ -137,8 +137,8 @@ public class Tower {
 		verticalBox.getChildren().add(this.drawableItemGenerator.get());
 		verticalBox.setLayoutX(TowerDefenseGame.TILE_PIXEL_SIZE / 2);
 		verticalBox.setLayoutY(0);
-		verticalBox.setAlignment(Pos.CENTER);
-		verticalBox.setSpacing(20);
+		verticalBox.setAlignment(Pos.TOP_CENTER);
+		verticalBox.setSpacing(TowerDefenseGame.TILE_PIXEL_SIZE / 5);
 		verticalBox.setPrefHeight(TowerDefenseGame.TILE_PIXEL_SIZE);
 		towerBox.setPrefWidth(TowerDefenseGame.TILE_PIXEL_SIZE);
 		towerBox.getChildren().add(verticalBox);

@@ -131,19 +131,19 @@ public class TowerDefenseUIController extends AnimationTimer {
 		game.tryBuyTower(new Tower(new Projectile(10, 50, () -> new Circle(10,
 																		   Color.BLACK)
 		),
-								   60, 10, () -> new Rectangle(10, 10,
+								   60, 10, () -> new Rectangle(10, 50,
 															   Color.BLACK)
 		), 0, 0);
 		game.tryBuyTower(new Tower(new Projectile(10, 50, () -> new Circle(10,
 																		   Color.BLACK)
 		),
-								   60, 10, () -> new Rectangle(10, 10,
+								   60, 10, () -> new Rectangle(10, 50,
 															   Color.BLACK)
 		), 1, 0);
 		game.tryBuyTower(new Tower(new Projectile(10, 50, () -> new Circle(10,
 																		   Color.BLACK)
 		),
-								   60, 10, () -> new Rectangle(10, 10,
+								   60, 10, () -> new Rectangle(10, 50,
 															   Color.BLACK)
 		), 2, 0);
 		this.start();
