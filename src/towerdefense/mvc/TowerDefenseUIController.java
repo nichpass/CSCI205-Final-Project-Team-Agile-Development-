@@ -128,20 +128,20 @@ public class TowerDefenseUIController extends AnimationTimer {
 		menuScreen.setVisible(false);
 		gameScreen.setMouseTransparent(false);
 		gameScreen.setVisible(true);
-		game.tryBuyTower(new Tower(new Projectile(10, 5, () -> new Circle(10,
-																		  Color.BLACK)
+		game.tryBuyTower(new Tower(new Projectile(10, 50, () -> new Circle(10,
+																		   Color.BLACK)
 		),
 								   60, 10, () -> new Rectangle(10, 10,
 															   Color.BLACK)
 		), 0, 0);
-		game.tryBuyTower(new Tower(new Projectile(10, 5, () -> new Circle(10,
-																		  Color.BLACK)
+		game.tryBuyTower(new Tower(new Projectile(10, 50, () -> new Circle(10,
+																		   Color.BLACK)
 		),
 								   60, 10, () -> new Rectangle(10, 10,
 															   Color.BLACK)
 		), 1, 0);
-		game.tryBuyTower(new Tower(new Projectile(10, 5, () -> new Circle(10,
-																		  Color.BLACK)
+		game.tryBuyTower(new Tower(new Projectile(10, 50, () -> new Circle(10,
+																		   Color.BLACK)
 		),
 								   60, 10, () -> new Rectangle(10, 10,
 															   Color.BLACK)
@@ -193,7 +193,7 @@ public class TowerDefenseUIController extends AnimationTimer {
 			}
 			game.update();
 			draw();
-			lastFrameTime = now;
+			lastFrameTime += 1.0E-9 / 60;
 		}
 	}
 
