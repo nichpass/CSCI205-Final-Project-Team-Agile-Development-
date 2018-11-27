@@ -8,14 +8,13 @@ import javafx.beans.property.StringProperty;
  */
 public class SurvivalTimer {
 
-    /** The time, in nanoSeconds, that the game started at */
-    private double startTime;
-
-    /** The amount of time the player has survived for **/
-    private double timeSurvived;
+    /** The amount of seconds the player has survived for **/
+    private double secondsSurvived;
 
     /** The String that will be displayed on the screen **/
     private String timerString;
+
+    private int ticksElapsed;
 
     /** The property necessary for bindings to be used in the UIController **/
     private StringProperty timerStringProperty;
@@ -24,7 +23,8 @@ public class SurvivalTimer {
      * Sets the initial values of the variables that correspond to zero-elapsed time
      */
     public SurvivalTimer(){
-        this.startTime = System.nanoTime();
+        this.secondsSurvived = 0;
+        this.ticksElapsed = 0;
         this.timerString = "00:00";
         this.timerStringProperty = new SimpleStringProperty(timerString);
     }
@@ -32,37 +32,28 @@ public class SurvivalTimer {
     /**
      * Updates the timerString using timeSurived
      */
-    public void updateTime(){
+    public void updateTimerString(){
+        this.secondsSurvived += 1/60;
 
-        this.updateTimeSurvived();
-
-        int numMinutes = (int) this.timeSurvived / 60;
-        int numSeconds = (int) this.timeSurvived % 60;
+        int numMinutes = (int) this.secondsSurvived / (60);
+        int numSeconds = (int) this.secondsSurvived % 60;
 
         this.timerString = numMinutes + ":" + numSeconds;
-    }
-
-    /**
-     * Updates timeSurvived using the difference between the start time and the current time
-     */
-    private void updateTimeSurvived(){
-        double curTime = System.nanoTime();
-        this.timeSurvived = (curTime - startTime) * 1e9;
     }
 
     /**
      * Sets the timer back to zero
      */
     public void resetTimer(){
-        this.startTime = System.nanoTime();
-        this.updateTime();
+        this.secondsSurvived = 0.0;
     }
 
     public StringProperty getTimerAsStringProperty(){
         return this.timerStringProperty;
+        //TODO Check that i can do it like this;
     }
 
     public double getTimerInSeconds(){
-        return this.timeSurvived;
+        return this.secondsSurvived;
     }
 }

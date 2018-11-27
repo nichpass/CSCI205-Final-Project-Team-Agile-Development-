@@ -35,6 +35,8 @@ public class Tile {
 	private ArrayList<Projectile> projectiles = new ArrayList();
 	private ArrayList<Enemy> enemies = new ArrayList();
 
+	private static ArrayList<Enemy> killedEnemies = new ArrayList();
+
 	/**
 	 * Constructs a new Tile object with no {@link Tower} on it.
 	 */
@@ -122,6 +124,7 @@ public class Tile {
 
 	private void checkCollisions() {
 		ArrayList<Projectile> collidedProjectiles = new ArrayList();
+
 		for (Projectile projectile : projectiles) {
 			ArrayList<Enemy> killedEnemies = new ArrayList();
 			for (Enemy enemy : enemies) {
@@ -135,6 +138,7 @@ public class Tile {
 				}
 			}
 			enemies.removeAll(killedEnemies);
+			Tile.killedEnemies.addAll(killedEnemies);
 		}
 		projectiles.removeAll(collidedProjectiles);
 	}
@@ -191,4 +195,8 @@ public class Tile {
 			}
 		}
 	}
+
+	public static ArrayList<Enemy> getKilledEnemies(){ return Tile.killedEnemies; }
+
+	public static void clearKilledEnemies(){Tile.killedEnemies.clear(); }
 }

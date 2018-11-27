@@ -17,6 +17,7 @@ package towerdefense.mvc;
 
 import java.util.Random;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -89,10 +90,9 @@ public class TowerDefenseUIController extends AnimationTimer {
 	private SurvivalTimer survivalTimer;
 
 	public TowerDefenseUIController() {
-//        this.survivalTimer = new SurvivalTimer();
-//        //TODO Put the update method from the SurvivalTimer object inside of the game loop
-//        this.survivalTimeLabel.textProperty().bind(
-//            this.survivalTimer.getTimerAsStringProperty());
+        this.survivalTimer = new SurvivalTimer();
+        //TODO Put the update method from the SurvivalTimer object inside of the game loop
+        //this.survivalTimeLabel.textProperty().bind(this.survivalTimer.getTimerAsStringProperty());
 
 	}
 
@@ -135,6 +135,8 @@ public class TowerDefenseUIController extends AnimationTimer {
 	@FXML
 	private void onMenuPlayButtonClick(ActionEvent event) {
 		game = new TowerDefenseGame(selectedDifficulty);
+		this.currentMoneyLabel.textProperty().bind(this.game.getMoneyHandler().getMoneyAsStringProperty());
+
 		menuScreen.setMouseTransparent(true);
 		menuScreen.setVisible(false);
 		gameScreen.setMouseTransparent(false);
@@ -202,6 +204,7 @@ public class TowerDefenseUIController extends AnimationTimer {
 			if (new Random().nextInt(60) == 0) {
 				game.spawnEnemyAt(new Random().nextInt(3));
 			}
+			drawMoney();
 			game.update();
 			draw();
 			lastFrameTime += 1.0E-9 / 60;
@@ -211,5 +214,14 @@ public class TowerDefenseUIController extends AnimationTimer {
 	private void draw() {
 		centerGamePane.getChildren().clear();
 		centerGamePane.getChildren().add(game.getDrawableNode());
+	}
+
+	public void drawMoney(){
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				Platform.runLater(() -> game.getMoneyHandler().updateStringProperty());
+			}
+		});
 	}
 }

@@ -19,6 +19,8 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author rsf
@@ -84,7 +86,9 @@ public class TowerDefenseGame {
 	 * game.
 	 */
 	public void update() {
+		Tile.clearKilledEnemies();
 		gameBoard.update();
+		updateMoney(Tile.getKilledEnemies(), null);
 	}
 
 	public void spawnEnemyAt(int rowIndex) {
@@ -117,4 +121,10 @@ public class TowerDefenseGame {
 		//time??
 		// TODO create and implement algorithm for spawning enemies based on list of enemies provided (add spawning frequency as attribute? relate to difficulty? need to think about before implementation
 	}
+
+	public void updateMoney(ArrayList<Enemy> enemiesKilled, Tower towerPurchased){
+		this.moneyHandler.update(enemiesKilled, towerPurchased);
+	}
+
+	public MoneyHandler getMoneyHandler(){ return this.moneyHandler; }
 }
