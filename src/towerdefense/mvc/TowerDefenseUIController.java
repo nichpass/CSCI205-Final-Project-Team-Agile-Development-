@@ -90,10 +90,6 @@ public class TowerDefenseUIController extends AnimationTimer {
 	private SurvivalTimer survivalTimer;
 
 	public TowerDefenseUIController() {
-        this.survivalTimer = new SurvivalTimer();
-        //TODO Put the update method from the SurvivalTimer object inside of the game loop
-        //this.survivalTimeLabel.textProperty().bind(this.survivalTimer.getTimerAsStringProperty());
-
 	}
 
 	@FXML
@@ -136,6 +132,7 @@ public class TowerDefenseUIController extends AnimationTimer {
 	private void onMenuPlayButtonClick(ActionEvent event) {
 		game = new TowerDefenseGame(selectedDifficulty);
 		this.currentMoneyLabel.textProperty().bind(this.game.getMoneyHandler().getMoneyAsStringProperty());
+		this.survivalTimeLabel.textProperty().bind(game.getSurvivalTimer().getTimerAsStringProperty());
 
 		menuScreen.setMouseTransparent(true);
 		menuScreen.setVisible(false);
@@ -205,6 +202,7 @@ public class TowerDefenseUIController extends AnimationTimer {
 				game.spawnEnemyAt(new Random().nextInt(3));
 			}
 			drawMoney();
+			drawTimer();
 			game.update();
 			draw();
 			lastFrameTime += 1.0E-9 / 60;
@@ -221,6 +219,15 @@ public class TowerDefenseUIController extends AnimationTimer {
 			@Override
 			public void run() {
 				Platform.runLater(() -> game.getMoneyHandler().updateStringProperty());
+			}
+		});
+	}
+
+	public void drawTimer(){
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				Platform.runLater(() -> game.getSurvivalTimer().updateStringProperty());
 			}
 		});
 	}

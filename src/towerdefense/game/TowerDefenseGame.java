@@ -47,6 +47,7 @@ public class TowerDefenseGame {
 	private Tower selectedTower = null;
 	private final Board gameBoard = new Board(NUM_ROWS, NUM_TILES_PER_ROW);
 	private MoneyHandler moneyHandler;
+	private SurvivalTimer survivalTimer;
 	private int playerScore = 0;
 
 	/**
@@ -57,6 +58,7 @@ public class TowerDefenseGame {
 	public TowerDefenseGame(Difficulty difficulty) {
 		this.difficulty = difficulty;
 		this.moneyHandler = new MoneyHandler();
+		this.survivalTimer = new SurvivalTimer();
 	}
 
 	/**
@@ -67,18 +69,18 @@ public class TowerDefenseGame {
 	 * a {@link Tower} object.
 	 *
 	 * @param towerToBuy the {@link Tower} to be associated with the tile
-	 * @param rowIndex the index of the {@link TileRow} object within which the
-	 * {@link Tower} object should be added
-	 * @param tileIndex the index of the {@link Tile} object to which the
-	 * {@link Tower} object should be added
+	 * @param rowIndex   the index of the {@link TileRow} object within which the
+	 *                   {@link Tower} object should be added
+	 * @param tileIndex  the index of the {@link Tile} object to which the
+	 *                   {@link Tower} object should be added
 	 * @return true if the player has sufficient funds to buy the tower and the
 	 * specified {@link Tile} object did not already have a tower on it (i.e.
 	 * the tower was added); false otherwise
 	 */
 	public boolean tryBuyTower(Tower towerToBuy, int rowIndex, int tileIndex) {
 		return canBuyTower(towerToBuy) && gameBoard.tryAddTowerAt(towerToBuy,
-																  rowIndex,
-																  tileIndex);
+				rowIndex,
+				tileIndex);
 	}
 
 	/**
@@ -89,13 +91,14 @@ public class TowerDefenseGame {
 		Tile.clearKilledEnemies();
 		gameBoard.update();
 		updateMoney(Tile.getKilledEnemies(), null);
+		updateTimer();
 	}
 
 	public void spawnEnemyAt(int rowIndex) {
 		gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 10,
-											() -> new Rectangle(10, 30,
-																Color.RED)),
-								  rowIndex
+						() -> new Rectangle(10, 30,
+								Color.RED)),
+				rowIndex
 		);
 	}
 
@@ -122,9 +125,20 @@ public class TowerDefenseGame {
 		// TODO create and implement algorithm for spawning enemies based on list of enemies provided (add spawning frequency as attribute? relate to difficulty? need to think about before implementation
 	}
 
-	public void updateMoney(ArrayList<Enemy> enemiesKilled, Tower towerPurchased){
+	public void updateMoney(ArrayList<Enemy> enemiesKilled, Tower towerPurchased) {
 		this.moneyHandler.update(enemiesKilled, towerPurchased);
 	}
 
-	public MoneyHandler getMoneyHandler(){ return this.moneyHandler; }
+	public void updateTimer(){
+		this.survivalTimer.update();
+	}
+
+	public MoneyHandler getMoneyHandler() {
+		return this.moneyHandler;
+	}
+
+	public SurvivalTimer getSurvivalTimer() {
+		return this.survivalTimer;
+	}
 }
+

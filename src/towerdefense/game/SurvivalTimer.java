@@ -14,8 +14,6 @@ public class SurvivalTimer {
     /** The String that will be displayed on the screen **/
     private String timerString;
 
-    private int ticksElapsed;
-
     /** The property necessary for bindings to be used in the UIController **/
     private StringProperty timerStringProperty;
 
@@ -23,8 +21,6 @@ public class SurvivalTimer {
      * Sets the initial values of the variables that correspond to zero-elapsed time
      */
     public SurvivalTimer(){
-        this.secondsSurvived = 0;
-        this.ticksElapsed = 0;
         this.timerString = "00:00";
         this.timerStringProperty = new SimpleStringProperty(timerString);
     }
@@ -32,8 +28,8 @@ public class SurvivalTimer {
     /**
      * Updates the timerString using timeSurived
      */
-    public void updateTimerString(){
-        this.secondsSurvived += 1/60;
+    public void update(){
+        this.secondsSurvived += 1.0 / 60;
 
         int numMinutes = (int) this.secondsSurvived / (60);
         int numSeconds = (int) this.secondsSurvived % 60;
@@ -50,10 +46,9 @@ public class SurvivalTimer {
 
     public StringProperty getTimerAsStringProperty(){
         return this.timerStringProperty;
-        //TODO Check that i can do it like this;
     }
 
-    public double getTimerInSeconds(){
-        return this.secondsSurvived;
+    public void updateStringProperty(){
+        this.timerStringProperty.setValue(this.timerString);
     }
 }
