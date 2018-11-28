@@ -1,10 +1,9 @@
 package towerdefense.game;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class MoneyHandler {
 
@@ -22,8 +21,8 @@ public class MoneyHandler {
     private static double naturalMoneyRate = 0.1;
 
     /**
-     * The time in seconds required to elapse before the rate of money gained per second
-     * increases again
+     * The time in seconds required to elapse before the rate of money gained
+     * per second increases again
      */
     private static int timeBetweenRateIncreases = 10;
 
@@ -36,15 +35,15 @@ public class MoneyHandler {
 
     private String moneyString;
 
-    private StringProperty moneyStringProperty;
+    private final StringProperty moneyStringProperty;
 
-    private DecimalFormat df;
+    private final DecimalFormat df;
 
     /**
      * Sets up the default values for money and money generation
      */
     public MoneyHandler() {
-        df = new DecimalFormat(".##");
+        df = new DecimalFormat(".00");
         this.currentMoney = 500.0;
         this.ticksElapsed = 0;
         this.moneyString = "$0.00";
@@ -53,10 +52,12 @@ public class MoneyHandler {
 
     /**
      * Updates the player's money using all of the different types of updates
-     * necessary to check for
+     * necessary to check for.
      *
-     * @param towerPurchased The state of whether or not the user has bought a
-     * tower since the last update
+     * @param enemiesKilled the list of enemies that have been killed since the
+     * last update
+     * @param towerPurchased the tower that the user has bought, if any, since
+     * the last update
      */
     public void update(ArrayList<Enemy> enemiesKilled,
                        Tower towerPurchased) {
@@ -69,8 +70,7 @@ public class MoneyHandler {
         this.ticksElapsed += 1;
     }
 
-    public void updateMoneyString(){
-        //TODO figure out why java hates me and will only print out 1 decimal place on the label
+    public void updateMoneyString() {
         this.moneyString = "$" + df.format(this.currentMoney);
     }
 
@@ -90,11 +90,10 @@ public class MoneyHandler {
      * Updates the rate value that determines how quickly the user naturally
      * generates money based on time survived
      *
-     * @param secondsSurvived The number of seconds the user has survived for
      */
     public void naturalUpdateMoneyRateIncrease() {
-        if (this.ticksElapsed >= 600){
-            this.naturalMoneyRate += this.naturalMoneyRateIncrease;
+        if (this.ticksElapsed >= 600) {
+            naturalMoneyRate += naturalMoneyRateIncrease;
             this.ticksElapsed = 0;
         }
     }
@@ -103,11 +102,11 @@ public class MoneyHandler {
      * Gives the player a monetary bonus if they have killed an enemy since the
      * last update
      *
-     * @param enemy The enemy killed since the last update, if any
+     * @param enemies the list of enemies that died since the last update
      */
     public void enemyKillMoneyBonus(ArrayList<Enemy> enemies) {
         if (enemies.size() > 0) {
-            for(Enemy enemy : enemies) {
+            for (Enemy enemy : enemies) {
                 this.currentMoney += enemy.getKillBonus();
             }
         }
@@ -130,17 +129,26 @@ public class MoneyHandler {
      * Determines if a tower can be bought
      *
      * @param tower The tower that the player is attempting to buy
-     * @return
+     * @return true if the user can buy the tower; false otherwise
      */
     public boolean canBuyTower(Tower tower) {
         return this.currentMoney >= tower.getCost();
     }
 
-    public StringProperty getMoneyAsStringProperty(){
+    /**
+     * Returns the current money amount as a formatted string.
+     *
+     * @return the current money amount in a traditional money format
+     */
+    public StringProperty getMoneyAsStringProperty() {
         return this.moneyStringProperty;
     }
 
-    public void updateStringProperty(){
+    /**
+     * Updates the money string property to the current value of the money
+     * string.
+     */
+    public void updateStringProperty() {
         this.moneyStringProperty.setValue(this.moneyString);
     }
 }
