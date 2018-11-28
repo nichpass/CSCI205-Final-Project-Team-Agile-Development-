@@ -82,7 +82,6 @@ public class MoneyHandler {
         if (this.ticksElapsed % 15 == 0) {
             this.currentMoney += moneyPerSecond * (1 + naturalMoneyRateIncrease);
             this.ticksElapsed = 0;
-            //System.out.println(this.currentMoney);
         }
     }
 
@@ -120,7 +119,6 @@ public class MoneyHandler {
      */
     public void purchaseTower(Tower tower) {
         if (tower != null && this.canBuyTower(tower)) {
-            System.out.println(tower);
             this.currentMoney -= tower.getCost();
         }
     }
