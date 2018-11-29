@@ -20,6 +20,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -32,12 +34,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import towerdefense.game.Difficulty;
-import towerdefense.game.Projectile;
 import towerdefense.game.SurvivalTimer;
 import towerdefense.game.Tower;
 import towerdefense.game.TowerDefenseGame;
@@ -140,25 +138,27 @@ public class TowerDefenseUIController extends AnimationTimer {
         menuScreen.setVisible(false);
         gameScreen.setMouseTransparent(false);
         gameScreen.setVisible(true);
-        game.tryBuyTower(new Tower(new Projectile(10, 50, () -> new Circle(10,
-                                                                           Color.BLACK)
-        ),
-                                   60, 500, 100, () -> new Rectangle(10, 50,
-                                                                     Color.BLACK)
-        ), 0, 0);
-        game.tryBuyTower(new Tower(new Projectile(10, 50, () -> new Circle(10,
-                                                                           Color.BLACK)
-        ),
-                                   60, 500, 100, () -> new Rectangle(10, 50,
-                                                                     Color.BLACK)
-        ), 1, 0);
-        game.tryBuyTower(new Tower(new Projectile(10, 50, () -> new Circle(10,
-                                                                           Color.BLACK)
-        ),
-                                   60, 500, 100, () -> new Rectangle(10, 50,
-                                                                     Color.BLACK)
-        ), 2, 0);
+        for (Tower selectableTower : game.getSelectableTowers()) {
+            HBox towerSelector = (HBox) selectableTower.getDrawableNode();
+            towerSelector.setOnMouseClicked((MouseEvent e) -> {
+                game.selectTower(selectableTower);
+                deselectTowers();
+                towerSelector.borderProperty().set(new Border(
+                    new BorderStroke(
+                        null, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+                        BorderWidths.DEFAULT)));
+            });
+            ((VBox) towerSelector.getChildren().get(0)).getChildren().remove(0);
+            ((VBox) towerSelector.getChildren().get(0)).setAlignment(Pos.CENTER);
+            selectTowerBox.getChildren().add(towerSelector);
+        }
         this.start();
+    }
+
+    private void deselectTowers() {
+        for (Node towerNode : selectTowerBox.getChildren()) {
+            ((HBox) towerNode).borderProperty().set(Border.EMPTY);
+        }
     }
 
     @FXML
@@ -203,30 +203,26 @@ public class TowerDefenseUIController extends AnimationTimer {
             if (new Random().nextInt(60) == 0) {
                 game.spawnEnemyAt(new Random().nextInt(3));
             }
-            drawMoney();
-            drawTimer();
             game.update();
             draw();
-            lastFrameTime += 1.0E-9 / 60;
         }
+        lastFrameTime += 1.0E-9 / 60;
     }
 
     private void draw() {
         centerGamePane.getChildren().clear();
         centerGamePane.getChildren().add(game.getDrawableNode());
+        drawMoney();
+        drawTimer();
     }
 
-    public void drawMoney() {
-        Platform.runLater(() -> {
-            Platform.runLater(
-                () -> game.getMoneyHandler().updateStringProperty());
-        });
+    private void drawMoney() {
+        Platform.runLater(
+            () -> game.getMoneyHandler().updateStringProperty());
     }
 
-    public void drawTimer() {
-        Platform.runLater(() -> {
-            Platform.runLater(
-                () -> game.getSurvivalTimer().updateStringProperty());
-        });
+    private void drawTimer() {
+        Platform.runLater(
+            () -> game.getSurvivalTimer().updateStringProperty());
     }
 }

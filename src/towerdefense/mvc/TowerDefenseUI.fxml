@@ -36,7 +36,7 @@
                         <VBox alignment="CENTER">
                             <children>
                                 <Label text="Select Your Defenses:" />
-                                <HBox fx:id="selectTowerBox" alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="640.0" />
+                                <HBox fx:id="selectTowerBox" alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="640.0" />
                             </children>
                             <padding>
                                 <Insets top="10.0" />

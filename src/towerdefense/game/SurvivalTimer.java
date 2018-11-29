@@ -8,19 +8,26 @@ import javafx.beans.property.StringProperty;
  */
 public class SurvivalTimer {
 
-    /** The amount of seconds the player has survived for **/
+    /**
+     * The amount of seconds the player has survived for *
+     */
     private double secondsSurvived;
 
-    /** The String that will be displayed on the screen **/
+    /**
+     * The String that will be displayed on the screen *
+     */
     private String timerString;
 
-    /** The property necessary for bindings to be used in the UIController **/
+    /**
+     * The property necessary for bindings to be used in the UIController *
+     */
     private StringProperty timerStringProperty;
 
     /**
-     * Sets the initial values of the variables that correspond to zero-elapsed time
+     * Sets the initial values of the variables that correspond to zero-elapsed
+     * time
      */
-    public SurvivalTimer(){
+    public SurvivalTimer() {
         this.timerString = "00:00";
         this.timerStringProperty = new SimpleStringProperty(timerString);
     }
@@ -28,27 +35,28 @@ public class SurvivalTimer {
     /**
      * Updates the timerString using timeSurived
      */
-    public void update(){
+    public void update() {
         this.secondsSurvived += 1.0 / 60;
 
         int numMinutes = (int) this.secondsSurvived / (60);
         int numSeconds = (int) this.secondsSurvived % 60;
 
-        this.timerString = numMinutes + ":" + numSeconds;
+        this.timerString = String.format("%02d", numMinutes) + ":" + String.format(
+            "%02d", numSeconds);
     }
 
     /**
      * Sets the timer back to zero
      */
-    public void resetTimer(){
+    public void resetTimer() {
         this.secondsSurvived = 0.0;
     }
 
-    public StringProperty getTimerAsStringProperty(){
+    public StringProperty getTimerAsStringProperty() {
         return this.timerStringProperty;
     }
 
-    public void updateStringProperty(){
+    public void updateStringProperty() {
         this.timerStringProperty.setValue(this.timerString);
     }
 }

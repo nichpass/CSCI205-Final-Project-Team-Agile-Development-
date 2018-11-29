@@ -45,16 +45,10 @@ public class TowerDefenseGame {
      */
     public static final int COLLISION_THRESHOLD = 50;
     private static final int NUM_ROWS = 3;
-    private static final int NUM_TILES_PER_ROW = 6;
+    private static final int NUM_TILES_PER_ROW = 8;
     private final Difficulty difficulty;
-    private Tower selectedTower = new Tower(new Projectile(10, 50,
-                                                           () -> new Circle(10,
-                                                                            Color.BLACK)
-    ),
-                                            60, 500, 100,
-                                            () -> new Rectangle(10, 50,
-                                                                Color.BLACK)
-    );
+    private Tower selectedTower = null;
+    private final ArrayList<Tower> selectableTowers = new ArrayList();
     private final Board gameBoard = new Board(NUM_ROWS, NUM_TILES_PER_ROW);
     private MoneyHandler moneyHandler;
     private SurvivalTimer survivalTimer;
@@ -69,6 +63,30 @@ public class TowerDefenseGame {
         this.difficulty = difficulty;
         this.moneyHandler = new MoneyHandler();
         this.survivalTimer = new SurvivalTimer();
+        selectableTowers.add(new Tower(new Projectile(10, 50,
+                                                      () -> new Circle(10,
+                                                                       Color.BLACK)
+        ),
+                                       60, 500, 100,
+                                       () -> new Rectangle(10, 50,
+                                                           Color.BLACK)
+        ));
+        selectableTowers.add(new Tower(new Projectile(20, 25,
+                                                      () -> new Circle(20,
+                                                                       Color.BLACK)
+        ),
+                                       120, 1000, 100,
+                                       () -> new Rectangle(20, 50,
+                                                           Color.BLACK)
+        ));
+        selectableTowers.add(new Tower(new Projectile(5, 100,
+                                                      () -> new Circle(5,
+                                                                       Color.BLACK)
+        ),
+                                       30, 250, 100,
+                                       () -> new Rectangle(10, 50,
+                                                           Color.BLACK)
+        ));
     }
 
     /**
@@ -78,7 +96,6 @@ public class TowerDefenseGame {
      * the specified {@link TileRow} object if it is not already associated with
      * a {@link Tower} object.
      *
-     * @param towerToBuy the {@link Tower} to be associated with the tile
      * @param rowIndex the index of the {@link TileRow} object within which the
      * {@link Tower} object should be added
      * @param tileIndex the index of the {@link Tile} object to which the
@@ -87,12 +104,16 @@ public class TowerDefenseGame {
      * specified {@link Tile} object did not already have a tower on it (i.e.
      * the tower was added); false otherwise
      */
-    public boolean tryBuyTower(Tower towerToBuy, int rowIndex, int tileIndex) {
-        if (canBuyTower(towerToBuy) && gameBoard.tryAddTowerAt(towerToBuy,
-                                                               rowIndex,
-                                                               tileIndex)) {
-            moneyHandler.purchaseTower(towerToBuy);
-            return true;
+    public boolean tryBuyTower(int rowIndex, int tileIndex) {
+        if (this.selectedTower != null) {
+            Tower towerToBuy = new Tower(this.selectedTower);
+            if (canBuyTower(towerToBuy) && gameBoard.tryAddTowerAt(
+                towerToBuy,
+                rowIndex,
+                tileIndex)) {
+                moneyHandler.purchaseTower(towerToBuy);
+                return true;
+            }
         }
         return false;
     }
@@ -122,7 +143,6 @@ public class TowerDefenseGame {
      * @return a Node that is a parent of all UI elements of the game board
      */
     public Node getDrawableNode() {
-        final Tower currentTower = new Tower(selectedTower);
         VBox boardNode = (VBox) gameBoard.getDrawableNode();
         for (int i = 0; i < NUM_ROWS; i++) {
             final int row = i;
@@ -131,9 +151,7 @@ public class TowerDefenseGame {
                 final int col = j;
                 rowNode.getChildren().get(j).setOnMousePressed(
                     (MouseEvent event) -> {
-                        if (currentTower != null) {
-                            tryBuyTower(currentTower, row, col);
-                        }
+                        tryBuyTower(row, col);
                     });
             }
         }
@@ -168,5 +186,15 @@ public class TowerDefenseGame {
 
     public SurvivalTimer getSurvivalTimer() {
         return this.survivalTimer;
+    }
+
+    public ArrayList<Tower> getSelectableTowers() {
+        return selectableTowers;
+    }
+
+    public void selectTower(Tower towerToSelect) {
+        if (this.selectableTowers.contains(towerToSelect)) {
+            this.selectedTower = towerToSelect;
+        }
     }
 }
