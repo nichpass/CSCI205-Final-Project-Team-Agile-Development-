@@ -77,8 +77,14 @@ public class TowerDefenseUIController extends AnimationTimer {
 
     private TowerDefenseGame game;
     private long lastFrameTime = System.nanoTime();
+    private Background background;
 
     public TowerDefenseUIController() {
+        Image image = new Image("towerdefense/images/environment/sky_sprite.jpg");
+        BackgroundSize size = new BackgroundSize(100, 100, true, true, true, false);
+        background = new Background(new BackgroundImage
+                (image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
+
     }
 
     @FXML
@@ -202,10 +208,8 @@ public class TowerDefenseUIController extends AnimationTimer {
 
     private void draw() {
         centerGamePane.getChildren().clear();
-        Image image = new Image("towerdefense/images/environment/sky_sprite.jpg");
-        BackgroundSize size = new BackgroundSize(100, 100, true, true, true, false);
-        centerGamePane.setBackground(new Background(new BackgroundImage
-                (image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
+
+        centerGamePane.setBackground(this.background);
         centerGamePane.getChildren().add(game.getDrawableNode());
         drawMoney();
         drawTimer();

@@ -193,10 +193,11 @@ public class Tile {
 	 */
 	public Node getDrawableNode() {
 		Pane tile = new Pane();
-		Image image = new Image("towerdefense/images/environment/tile_sprite.jpg");
+		/*Image image = new Image("towerdefense/images/environment/tile_sprite.jpg");
 		BackgroundSize size = new BackgroundSize(100, 100, true, true, true, false);
 		tile.setBackground(new Background(new BackgroundImage
 				(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
+				*/
 		for (Enemy enemy : enemies) {
 			Node enemyNode = enemy.getDrawableNode();
 
