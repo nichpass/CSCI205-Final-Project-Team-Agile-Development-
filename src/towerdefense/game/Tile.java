@@ -32,12 +32,16 @@ public class Tile {
 	private ArrayList<Enemy> enemies = new ArrayList();
 
 	private static final ArrayList<Enemy> killedEnemies = new ArrayList();
-
+    private Background tileBackground;
 	/**
 	 * Constructs a new Tile object with no {@link Tower} on it.
 	 */
 	public Tile() {
-		this.tower = null;
+	    this.tower = null;
+        Image image = new Image("towerdefense/images/environment/tile_sprite.jpg");
+        BackgroundSize size = new BackgroundSize(100, 100, true, true, true, false);
+        this.tileBackground = new Background(new BackgroundImage
+                (image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
 	}
 
 	/**
@@ -193,10 +197,8 @@ public class Tile {
 	 */
 	public Node getDrawableNode() {
 		Pane tile = new Pane();
-		Image image = new Image("towerdefense/images/environment/tile_sprite.jpg");
-		BackgroundSize size = new BackgroundSize(100, 100, true, true, true, false);
-		tile.setBackground(new Background(new BackgroundImage
-				(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
+
+		tile.setBackground(this.tileBackground);
 
 		for (Enemy enemy : enemies) {
 			Node enemyNode = enemy.getDrawableNode();
