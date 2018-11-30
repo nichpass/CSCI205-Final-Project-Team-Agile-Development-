@@ -24,16 +24,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import towerdefense.game.Difficulty;
 import towerdefense.game.SurvivalTimer;
@@ -84,8 +77,6 @@ public class TowerDefenseUIController extends AnimationTimer {
 
     private TowerDefenseGame game;
     private long lastFrameTime = System.nanoTime();
-
-    private SurvivalTimer survivalTimer;
 
     public TowerDefenseUIController() {
     }
@@ -201,7 +192,7 @@ public class TowerDefenseUIController extends AnimationTimer {
     public void handle(long now) {
         if ((60 * (now - lastFrameTime)) / 1000000000 > 0) {
             if (new Random().nextInt(60) == 0) {
-                game.spawnEnemyAt(new Random().nextInt(3));
+                game.spawnEnemyAt(new Random().nextInt(4), new Random().nextDouble());
             }
             game.update();
             draw();
@@ -211,6 +202,10 @@ public class TowerDefenseUIController extends AnimationTimer {
 
     private void draw() {
         centerGamePane.getChildren().clear();
+        Image image = new Image("towerdefense/images/environment/sky_sprite.jpg");
+        BackgroundSize size = new BackgroundSize(100, 100, true, true, true, false);
+        centerGamePane.setBackground(new Background(new BackgroundImage
+                (image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
         centerGamePane.getChildren().add(game.getDrawableNode());
         drawMoney();
         drawTimer();

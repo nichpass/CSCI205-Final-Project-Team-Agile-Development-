@@ -59,4 +59,6 @@ public class SurvivalTimer {
     public void updateStringProperty() {
         this.timerStringProperty.setValue(this.timerString);
     }
+
+    public double getTimeSurvived(){ return this.secondsSurvived; }
 }

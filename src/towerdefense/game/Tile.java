@@ -17,12 +17,8 @@ package towerdefense.game;
 
 import java.util.ArrayList;
 import javafx.scene.Node;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 /**
@@ -197,6 +193,10 @@ public class Tile {
 	 */
 	public Node getDrawableNode() {
 		Pane tile = new Pane();
+		Image image = new Image("towerdefense/images/environment/tile_sprite.jpg");
+		BackgroundSize size = new BackgroundSize(100, 100, true, true, true, false);
+		tile.setBackground(new Background(new BackgroundImage
+				(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size)));
 		for (Enemy enemy : enemies) {
 			Node enemyNode = enemy.getDrawableNode();
 
@@ -211,10 +211,11 @@ public class Tile {
 		tile.setPrefSize(TowerDefenseGame.TILE_PIXEL_SIZE,
 						 TowerDefenseGame.TILE_PIXEL_SIZE);
 
-		tile.setBorder(new Border(new BorderStroke(Color.BLACK,
+		 tile.setBorder(new Border(new BorderStroke(Color.BLACK,
 												   BorderStrokeStyle.SOLID,
 												   CornerRadii.EMPTY,
 												   BorderWidths.DEFAULT)));
+
 		return tile;
 	}
 

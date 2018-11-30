@@ -14,7 +14,7 @@ public class EnemySpawner {
      * The minimum amount of time that must elapse before a new enemy can be
      * spawned *
      */
-    private static double updatePeriodLowerBound = 5;
+    private static double updatePeriodLowerBound = 2;
 
     /**
      * The maximum amount of time that can elapse before a new enemy will be
@@ -27,14 +27,20 @@ public class EnemySpawner {
      */
     private double timeSinceLastSpawn;
 
+    private double timeSinceLastUpdate;
+
     /**
      * An array of the different types of enemies that exist *
      */
     private Enemy[] enemyTypes;
 
-    public EnemySpawner(Enemy[] enemyTypes) {
+    private Board gameBoard;
+
+    public EnemySpawner(Enemy[] enemyTypes, Board board) {
         this.timeSinceLastSpawn = 0;
+        this.timeSinceLastUpdate = 0.0;
         this.enemyTypes = enemyTypes;
+        this.gameBoard = board;
     }
 
     /**
@@ -43,9 +49,8 @@ public class EnemySpawner {
      * @param secondsSurvived the number of seconds that the player has survived
      * in the current game
      */
-    public void update(double secondsSurvived) {
-        //TODO somehow get the returned enemy variable from trySpawn() back into the game to be displayed and used
-        trySpawn(secondsSurvived);
+    public void update(double secondsSurvived, int index) {
+        trySpawn(secondsSurvived, index);
         updateUpdateRate(secondsSurvived);
     }
 
@@ -57,13 +62,15 @@ public class EnemySpawner {
      * @return <code>null</code> if no {@link Enemy} spawns; the spawned
      * {@link Enemy} otherwise
      */
-    public Enemy trySpawn(double secondsSurvived) {
+    private void trySpawn(double secondsSurvived, int index) {
         this.updateRate = secondsSurvived / 1000;
         if (shouldSpawn()) {
-            return enemyToSpawn();
-        }
-        else {
-            return null;
+            this.gameBoard.spawnEnemyAtRow(enemyToSpawn(), index);
+            System.out.println("spawned");
+            this.timeSinceLastSpawn = 0;
+        }else {
+            this.timeSinceLastSpawn += secondsSurvived - this.timeSinceLastUpdate;
+            this.timeSinceLastUpdate = secondsSurvived;
         }
     }
 
@@ -86,7 +93,7 @@ public class EnemySpawner {
         else {
             Random rand = new Random();
             int randInt = rand.nextInt(99);
-            if (randInt > 99 - this.updateRate * 100) {
+            if (randInt > 30 - this.updateRate) {
                 return true;
             }
             else {
@@ -113,8 +120,7 @@ public class EnemySpawner {
      * @return the randomly selected enemy
      */
     public Enemy enemyToSpawn() {
-        Random rand = new Random();
-        int randInt = rand.nextInt(enemyTypes.length);
+        int randInt = new Random().nextInt(enemyTypes.length);
         return enemyTypes[randInt];
     }
 
