@@ -146,8 +146,8 @@ public class TowerDefenseGame {
 
 	public void spawnEnemyAt(int rowIndex, double enemyDeterminant) {
 		//this.enemySpawner.update(this.survivalTimer.getTimeSurvived(), rowIndex);
-		this.gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
-				() -> new ImageView("towerdefense/images/enemies/enemy_mario.png")), rowIndex);
+		//this.gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
+			//	() -> new ImageView("towerdefense/images/enemies/enemy_mario.png")), rowIndex);
 		 if(enemyDeterminant < 0.3){
 			gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
 					() -> new ImageView("towerdefense/images/enemies/enemy_mario.png")), rowIndex);
