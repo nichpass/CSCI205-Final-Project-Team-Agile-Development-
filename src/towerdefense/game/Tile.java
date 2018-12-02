@@ -17,7 +17,6 @@ package towerdefense.game;
 
 import java.util.ArrayList;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -32,16 +31,12 @@ public class Tile {
 	private ArrayList<Enemy> enemies = new ArrayList();
 
 	private static final ArrayList<Enemy> killedEnemies = new ArrayList();
-    private Background tileBackground;
+
 	/**
 	 * Constructs a new Tile object with no {@link Tower} on it.
 	 */
 	public Tile() {
-	    this.tower = null;
-        Image image = new Image("towerdefense/images/environment/tile_sprite.jpg");
-        BackgroundSize size = new BackgroundSize(100, 100, true, true, true, false);
-        this.tileBackground = new Background(new BackgroundImage
-                (image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
+		this.tower = null;
 	}
 
 	/**
@@ -197,9 +192,6 @@ public class Tile {
 	 */
 	public Node getDrawableNode() {
 		Pane tile = new Pane();
-
-		tile.setBackground(this.tileBackground);
-
 		for (Enemy enemy : enemies) {
 			Node enemyNode = enemy.getDrawableNode();
 
@@ -214,7 +206,7 @@ public class Tile {
 		tile.setPrefSize(TowerDefenseGame.TILE_PIXEL_SIZE,
 						 TowerDefenseGame.TILE_PIXEL_SIZE);
 
-		 tile.setBorder(new Border(new BorderStroke(Color.BLACK,
+		tile.setBorder(new Border(new BorderStroke(Color.BLACK,
 												   BorderStrokeStyle.SOLID,
 												   CornerRadii.EMPTY,
 												   BorderWidths.DEFAULT)));

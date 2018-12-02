@@ -163,15 +163,15 @@ public class TowerDefenseGame {
 		//this.gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
 		//	() -> new ImageView("towerdefense/images/enemies/enemy_mario.png")), rowIndex);
 		if (enemyDeterminant < 0.3) {
-			gameBoard.spawnEnemyAtRow(ENEMY_TYPES[0],
+			gameBoard.spawnEnemyAtRow(new Enemy(ENEMY_TYPES[0]),
 									  rowIndex);
 		}
 		else if (0.3 <= enemyDeterminant && enemyDeterminant < 0.6) {
-			gameBoard.spawnEnemyAtRow(ENEMY_TYPES[1],
+			gameBoard.spawnEnemyAtRow(new Enemy(ENEMY_TYPES[1]),
 									  rowIndex);
 		}
 		else {
-			gameBoard.spawnEnemyAtRow(ENEMY_TYPES[2],
+			gameBoard.spawnEnemyAtRow(new Enemy(ENEMY_TYPES[2]),
 									  rowIndex);
 		}
 
