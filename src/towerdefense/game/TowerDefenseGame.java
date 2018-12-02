@@ -16,18 +16,12 @@
 package towerdefense.game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 /**
  *
@@ -49,12 +43,26 @@ public class TowerDefenseGame {
 	 * detected.
 	 */
 	public static final int COLLISION_THRESHOLD = 50;
+	private static final Image[] ENEMY_IMAGES = new Image[]{new Image(
+		"towerdefense/images/enemies/enemy_mario.png"), new Image(
+															"towerdefense/images/enemies/enemy_luigi.png"), new Image(
+															"towerdefense/images/enemies/enemy_peach.png")};
+	private static final Image[] TOWER_IMAGES = new Image[]{new Image(
+		"towerdefense/images/towers/tower_drybones.png"), new Image(
+															"towerdefense/images/towers/tower_pipe.png"), new Image(
+															"towerdefense/images/towers/tower_kamek.png"
+															), new Image(
+															"towerdefense/images/towers/tower_thwomp.png")};
+	private static final Image[] PROJECTILE_IMAGES = new Image[]{new Image(
+		"towerdefense/images/projectiles/projectile_drybones.png"), new Image(
+																 "towerdefense/images/projectiles/projectile_pipe.png"), new Image(
+																 "towerdefense/images/projectiles/projectile_kamek.png"), null};
 	private static final int NUM_ROWS = 4;
 	private static final int NUM_TILES_PER_ROW = 8;
 	private final Difficulty difficulty;
 	private Tower selectedTower = null;
 	private final ArrayList<Tower> selectableTowers = new ArrayList();
-	private final Enemy[] enemyTypes = new Enemy[3];
+	private final Enemy[] ENEMY_TYPES = new Enemy[3];
 	private final Board gameBoard = new Board(NUM_ROWS, NUM_TILES_PER_ROW);
 	private MoneyHandler moneyHandler;
 	private SurvivalTimer survivalTimer;
@@ -68,38 +76,44 @@ public class TowerDefenseGame {
 	 */
 	public TowerDefenseGame(Difficulty difficulty) {
 		this.difficulty = difficulty;
-		this.moneyHandler = new MoneyHandler();
+		this.moneyHandler = new MoneyHandler(difficulty);
 		this.survivalTimer = new SurvivalTimer();
 		selectableTowers.add(new Tower(new Projectile(10, 50,
-													  () -> new ImageView("towerdefense/images/projectiles/projectile_drybones.png")
+													  () -> new ImageView(
+															  PROJECTILE_IMAGES[0])
 		),
 									   60, 500, 100,
-									   () -> new ImageView("towerdefense/images/towers/tower_drybones.png")
+									   () -> new ImageView(TOWER_IMAGES[0])
 		));
 		selectableTowers.add(new Tower(new Projectile(20, 25,
-													  () -> new ImageView("towerdefense/images/projectiles/projectile_pipe.png")
+													  () -> new ImageView(
+															  PROJECTILE_IMAGES[1])
 		),
 									   120, 1000, 100,
-									   () -> new ImageView("towerdefense/images/towers/tower_pipe.png")
+									   () -> new ImageView(TOWER_IMAGES[1])
 		));
 		selectableTowers.add(new Tower(new Projectile(5, 100,
-													  () -> new ImageView("towerdefense/images/projectiles/projectile_kamek.png")
+													  () -> new ImageView(
+															  PROJECTILE_IMAGES[2])
 		),
 									   30, 250, 100,
-									   () -> new ImageView("towerdefense/images/towers/tower_kamek.png")
+									   () -> new ImageView(TOWER_IMAGES[2])
 		));
 		selectableTowers.add(new Tower(new Projectile(0, 100,
-														() -> new ImageView()
+													  () -> null
 		),
-										10000, 1000, 100,
-				() -> new ImageView("towerdefense/images/towers/tower_thwomp.png")));
+									   10000, 1000, 100,
+									   () -> new ImageView(TOWER_IMAGES[3])));
 
-		enemyTypes[0] = new Enemy(1, 10, 30, 20,
-						() -> new ImageView("towerdefense/images/enemies/enemy_mario.png"));
-		enemyTypes[1] = new Enemy(1, 10, 30, 20,
-				() -> new ImageView("towerdefense/images/enemies/enemy_luigi.png"));
-		enemyTypes[2] = new Enemy(1, 10, 30, 20,
-				() -> new ImageView("towerdefense/images/enemies/enemy_peach.png"));
+		ENEMY_TYPES[0] = new Enemy(1, 10, 30, 20,
+								   () -> new ImageView(
+										   ENEMY_IMAGES[0]));
+		ENEMY_TYPES[1] = new Enemy(1, 10, 30, 20,
+								   () -> new ImageView(
+										   ENEMY_IMAGES[1]));
+		ENEMY_TYPES[2] = new Enemy(1, 10, 30, 20,
+								   () -> new ImageView(
+										   ENEMY_IMAGES[2]));
 
 		//his.enemySpawner = new EnemySpawner(enemyTypes, gameBoard);
 	}
@@ -147,16 +161,18 @@ public class TowerDefenseGame {
 	public void spawnEnemyAt(int rowIndex, double enemyDeterminant) {
 		//this.enemySpawner.update(this.survivalTimer.getTimeSurvived(), rowIndex);
 		//this.gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
-			//	() -> new ImageView("towerdefense/images/enemies/enemy_mario.png")), rowIndex);
-		 if(enemyDeterminant < 0.3){
-			gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
-					() -> new ImageView("towerdefense/images/enemies/enemy_mario.png")), rowIndex);
-		} else if(0.3 <= enemyDeterminant && enemyDeterminant < 0.6){
-			gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
-					() -> new ImageView("towerdefense/images/enemies/enemy_luigi.png")), rowIndex);
-		} else {
-			gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
-					() -> new ImageView("towerdefense/images/enemies/enemy_peach.png")), rowIndex);
+		//	() -> new ImageView("towerdefense/images/enemies/enemy_mario.png")), rowIndex);
+		if (enemyDeterminant < 0.3) {
+			gameBoard.spawnEnemyAtRow(ENEMY_TYPES[0],
+									  rowIndex);
+		}
+		else if (0.3 <= enemyDeterminant && enemyDeterminant < 0.6) {
+			gameBoard.spawnEnemyAtRow(ENEMY_TYPES[1],
+									  rowIndex);
+		}
+		else {
+			gameBoard.spawnEnemyAtRow(ENEMY_TYPES[2],
+									  rowIndex);
 		}
 
 	}
