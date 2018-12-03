@@ -116,4 +116,29 @@ public class Projectile {
 		projectileBox.setPrefHeight(TowerDefenseGame.TILE_PIXEL_SIZE);
 		return projectileBox;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Projectile other = (Projectile) obj;
+		if (this.damageOnContact != other.damageOnContact) {
+			return false;
+		}
+		if (this.movementPerTick != other.movementPerTick) {
+			return false;
+		}
+		if (this.positionInTile != other.positionInTile) {
+			return false;
+		}
+		return true;
+	}
+
 }
