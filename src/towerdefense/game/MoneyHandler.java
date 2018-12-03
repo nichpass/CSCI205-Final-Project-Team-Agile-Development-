@@ -1,10 +1,24 @@
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Fall 2018
+*
+* Name: Alison Esterow, Nick Passantino, Zach Dunbrack
+* Date: Nov 9, 2018
+* Time: 12:10:08 PM
+*
+* Project: csci205_final_project
+* Package: game
+* File: MoneyHandler
+* Description: TODO fill in description for Enemy
+*
+* ****************************************
+ */
 package towerdefense.game;
-
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class MoneyHandler {
 
@@ -22,8 +36,8 @@ public class MoneyHandler {
     private static double naturalMoneyRate = 0.1;
 
     /**
-     * The time in seconds required to elapse before the rate of money gained per second
-     * increases again
+     * The time in seconds required to elapse before the rate of money gained
+     * per second increases again
      */
     private static int timeBetweenRateIncreases = 10;
 
@@ -69,8 +83,13 @@ public class MoneyHandler {
         this.ticksElapsed += 1;
     }
 
-    public void updateMoneyString(){
-        //TODO figure out why java hates me and will only print out 1 decimal place on the label
+    /**
+     *
+     * updates the money string
+     *
+     */
+    public void updateMoneyString() {
+
         this.moneyString = "$" + df.format(this.currentMoney);
     }
 
@@ -90,10 +109,9 @@ public class MoneyHandler {
      * Updates the rate value that determines how quickly the user naturally
      * generates money based on time survived
      *
-     * @param secondsSurvived The number of seconds the user has survived for
      */
     public void naturalUpdateMoneyRateIncrease() {
-        if (this.ticksElapsed >= 600){
+        if (this.ticksElapsed >= 600) {
             this.naturalMoneyRate += this.naturalMoneyRateIncrease;
             this.ticksElapsed = 0;
         }
@@ -103,11 +121,10 @@ public class MoneyHandler {
      * Gives the player a monetary bonus if they have killed an enemy since the
      * last update
      *
-     * @param enemy The enemy killed since the last update, if any
      */
     public void enemyKillMoneyBonus(ArrayList<Enemy> enemies) {
         if (enemies.size() > 0) {
-            for(Enemy enemy : enemies) {
+            for (Enemy enemy : enemies) {
                 this.currentMoney += enemy.getKillBonus();
             }
         }
@@ -136,11 +153,11 @@ public class MoneyHandler {
         return this.currentMoney >= tower.getCost();
     }
 
-    public StringProperty getMoneyAsStringProperty(){
+    public StringProperty getMoneyAsStringProperty() {
         return this.moneyStringProperty;
     }
 
-    public void updateStringProperty(){
+    public void updateStringProperty() {
         this.moneyStringProperty.setValue(this.moneyString);
     }
 }

@@ -26,43 +26,39 @@ import javafx.stage.WindowEvent;
  *
  * @author rsf
  */
-public class TowerDefenseMain extends Application
-{
+public class TowerDefenseMain extends Application {
 
-	TowerDefenseUIController controller;
+    TowerDefenseUIController controller;
 
-	@Override
-	public void init()
-	{
-	}
+    @Override
+    public void init() {
+    }
 
-	@Override
-	public void start(Stage primaryStage) throws Exception
-	{
-		FXMLLoader loader = new FXMLLoader(
-				this.getClass().getClassLoader().getResource(
-						"towerdefense/mvc/TowerDefenseUI.fxml"));
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(
+                this.getClass().getClassLoader().getResource(
+                        "towerdefense/mvc/TowerDefenseUI.fxml"));
 
-		Parent root = (Parent) loader.load();
+        Parent root = (Parent) loader.load();
 
-		controller = loader.getController();
-		Scene scene = new Scene(root);
-		primaryStage.setOnShown((WindowEvent event) ->
-		{
-			controller.setStage(primaryStage);
-		});
-		primaryStage.setResizable(false);
-		primaryStage.setTitle("Tower Defense");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
+        controller = loader.getController();
+        Scene scene = new Scene(root);
+        primaryStage.setOnShown((WindowEvent event)
+                -> {
+            controller.setStage(primaryStage);
+        });
+        primaryStage.setResizable(false);
+        primaryStage.setTitle("Tower Defense");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String[] args)
-	{
-		launch(args);
-	}
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 }

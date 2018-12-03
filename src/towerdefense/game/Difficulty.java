@@ -8,7 +8,7 @@
 *
 * Project: csci205_final_project
 * Package: game
-* File: Board
+* File: Difficulty
 * Description: TODO fill in description for Board
 *
 * ****************************************
@@ -21,24 +21,29 @@ package towerdefense.game;
  */
 public enum Difficulty {
 
-	EASY(0.75),
-	MEDIUM(1.00),
-	HARD(1.25);
+    EASY(0.75),
+    MEDIUM(1.00),
+    HARD(1.25);
 
-	private final double costMultiplier;
+    private final double costMultiplier;
 
-	private Difficulty(double costMultiplier) {
-		this.costMultiplier = costMultiplier;
-	}
+    /**
+     * Constructor for Difficulty
+     *
+     * @param costMultiplier
+     */
+    private Difficulty(double costMultiplier) {
+        this.costMultiplier = costMultiplier;
+    }
 
-	/**
-	 * Returns the multiplier to the cost of all {@link Tower} objects that will
-	 * be used when this difficulty is selected.
-	 *
-	 * @return the multiplier to the cost of all {@link Tower} objects that will
-	 * be used when this difficulty is selected
-	 */
-	public double getCostMultiplier() {
-		return costMultiplier;
-	}
+    /**
+     * Returns the multiplier to the cost of all {@link Tower} objects that will
+     * be used when this difficulty is selected.
+     *
+     * @return the multiplier to the cost of all {@link Tower} objects that will
+     * be used when this difficulty is selected
+     */
+    public double getCostMultiplier() {
+        return costMultiplier;
+    }
 }
