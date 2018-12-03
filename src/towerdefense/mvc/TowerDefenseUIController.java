@@ -71,6 +71,10 @@ public class TowerDefenseUIController extends AnimationTimer {
     private Pane bottomPreviewPane;
     @FXML
     private Label livesLabel;
+    @FXML
+    private Pane gameOverScreen;
+    @FXML
+    private Label gameOverTimeSurvivedLabel;
 
     private Stage stage;
 
@@ -136,7 +140,6 @@ public class TowerDefenseUIController extends AnimationTimer {
             game.getSurvivalTimer().getTimerAsStringProperty());
         this.livesLabel.textProperty().bind(
             game.getLivesProperty().asString());
-
         menuScreen.setMouseTransparent(true);
         menuScreen.setVisible(false);
         gameScreen.setMouseTransparent(false);
@@ -218,8 +221,21 @@ public class TowerDefenseUIController extends AnimationTimer {
             }
             game.update();
             draw();
+            if (game.isOver()) {
+                onGameOver();
+            }
         }
         lastFrameTime += 1.0E-9 / 60;
+    }
+
+    private void onGameOver() {
+        this.stop();
+        gameOverTimeSurvivedLabel.setText(
+            "Time Survived: " + this.survivalTimeLabel.getText());
+        gameScreen.setVisible(false);
+        gameScreen.setMouseTransparent(true);
+        gameOverScreen.setVisible(true);
+        gameOverScreen.setMouseTransparent(false);
     }
 
     private void draw() {
@@ -228,6 +244,14 @@ public class TowerDefenseUIController extends AnimationTimer {
         centerGamePane.getChildren().add(game.getDrawableNode());
         drawMoney();
         drawTimer();
+    }
+
+    @FXML
+    private void onGameOverBackToMenuButtonClick() {
+        menuScreen.setVisible(true);
+        menuScreen.setMouseTransparent(false);
+        gameOverScreen.setVisible(false);
+        gameOverScreen.setMouseTransparent(true);
     }
 
     private void drawMoney() {
