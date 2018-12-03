@@ -36,11 +36,17 @@ public class EnemySpawner {
 
     private Board gameBoard;
 
-    public EnemySpawner(Enemy[] enemyTypes, Board board) {
+    //this is where the newer simpler spawner starts
+    private double startSpawnChance;
+
+    private double currentSpawnChance;
+
+    public EnemySpawner( Board board) {
         this.timeSinceLastSpawn = 0;
         this.timeSinceLastUpdate = 0.0;
-        this.enemyTypes = enemyTypes;
         this.gameBoard = board;
+        this.startSpawnChance = 25;
+        this.currentSpawnChance = startSpawnChance;
     }
 
     /**
@@ -50,8 +56,8 @@ public class EnemySpawner {
      * in the current game
      */
     public void update(double secondsSurvived, int index) {
-        trySpawn(secondsSurvived, index);
-        updateUpdateRate(secondsSurvived);
+        //trySpawn(secondsSurvived, index);
+        //updateUpdateRate(secondsSurvived);
     }
 
     /**
@@ -62,9 +68,24 @@ public class EnemySpawner {
      * @return <code>null</code> if no {@link Enemy} spawns; the spawned
      * {@link Enemy} otherwise
      */
-    private void trySpawn(double secondsSurvived, int index) {
+    public boolean shouldSpawn(double secondsSurvived) {
+
+        this.currentSpawnChance = startSpawnChance + secondsSurvived / 8;
+        if(this.currentSpawnChance > 100){
+            this.currentSpawnChance = 100;
+        }
+
+        int randSpawnInt = new Random().nextInt(100);
+        if(randSpawnInt < this.currentSpawnChance){
+            return true;
+        } else {
+            return false;
+        }
+
+       /*
+
         this.updateRate = secondsSurvived / 1000;
-        if (shouldSpawn()) {
+        if (shouldSpawn(randSpawnInt)) {
             this.gameBoard.spawnEnemyAtRow(enemyToSpawn(), index);
             System.out.println("spawned");
             this.timeSinceLastSpawn = 0;
@@ -72,6 +93,7 @@ public class EnemySpawner {
             this.timeSinceLastSpawn += secondsSurvived - this.timeSinceLastUpdate;
             this.timeSinceLastUpdate = secondsSurvived;
         }
+        */
     }
 
     /**
@@ -83,7 +105,9 @@ public class EnemySpawner {
      *
      * @return whether or not an enemy should spawn at the current time
      */
-    public boolean shouldSpawn() {
+    //public boolean shouldSpawn(int randInt) {
+
+        /*
         if (this.timeSinceLastSpawn >= this.updatePeriodUpperBound) {
             return true;
         }
@@ -100,7 +124,8 @@ public class EnemySpawner {
                 return false;
             }
         }
-    }
+        */
+    //}
 
     /**
      * Updates the rate at which spawning increases based on the amount of time

@@ -85,7 +85,7 @@ public class MoneyHandler {
 	public void naturalUpdateMoney() {
 
 		if (this.ticksElapsed % 15 == 0) {
-			this.currentMoney += moneyPerSecond * (1 + naturalMoneyRateIncrease);
+			this.currentMoney += moneyPerSecond * (0.5 + naturalMoneyRateIncrease);
 			this.ticksElapsed = 0;
 		}
 	}

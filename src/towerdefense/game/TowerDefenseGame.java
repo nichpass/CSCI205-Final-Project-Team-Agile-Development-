@@ -16,6 +16,8 @@
 package towerdefense.game;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -70,7 +72,7 @@ public class TowerDefenseGame {
     private final SurvivalTimer survivalTimer;
     private SimpleIntegerProperty lives = new SimpleIntegerProperty(
         STARTING_LIVES);
-    private EnemySpawner enemySpawner;
+    private EnemySpawner enemySpawner = new EnemySpawner(gameBoard);
 
     /**
      * Constructs a game with the given difficulty.
@@ -160,10 +162,14 @@ public class TowerDefenseGame {
         updateTimer();
     }
 
-    public void spawnEnemyAt(int rowIndex, double enemyDeterminant) {
+    public void spawnEnemyAt(int rowIndex) {
         //this.enemySpawner.update(this.survivalTimer.getTimeSurvived(), rowIndex);
         //this.gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
         //	() -> new ImageView("towerdefense/images/enemies/enemy_mario.png")), rowIndex);
+        //double enemyDeterminant = enemySpawner.update();
+
+        double enemyDeterminant = new Random().nextDouble();
+
         if (enemyDeterminant < 0.3) {
             gameBoard.spawnEnemyAtRow(new Enemy(ENEMY_TYPES[0]),
                                       rowIndex);
@@ -258,6 +264,12 @@ public class TowerDefenseGame {
      */
     public boolean isOver() {
         return lives.get() <= 0;
+    }
+
+    public void trySpawn(double secondsElapsed, int index){
+        if (this.enemySpawner.shouldSpawn(secondsElapsed)){
+            this.spawnEnemyAt(index);
+        }
     }
 
 }

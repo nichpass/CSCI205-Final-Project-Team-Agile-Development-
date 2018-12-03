@@ -81,7 +81,8 @@ public class TowerDefenseUIController extends AnimationTimer {
     private Difficulty selectedDifficulty = Difficulty.MEDIUM;
 
     private TowerDefenseGame game;
-    private long lastFrameTime = System.nanoTime();
+    private long startTime = System.nanoTime();
+    private long lastFrameTime = startTime;
     private Background background;
 
     public TowerDefenseUIController() {
@@ -215,10 +216,12 @@ public class TowerDefenseUIController extends AnimationTimer {
     @Override
     public void handle(long now) {
         if ((60 * (now - lastFrameTime)) / 1000000000 > 0) {
-            if (new Random().nextInt(60) == 0) {
-                game.spawnEnemyAt(new Random().nextInt(4),
-                                  new Random().nextDouble());
+            if (new Random().nextInt(60) <= 1) {
+
+                double secondsElapsed = (now - startTime) / 1e9;
+                game.trySpawn(secondsElapsed, new Random().nextInt(4));
             }
+
             game.update();
             draw();
             if (game.isOver()) {
