@@ -105,7 +105,7 @@
                 </HBox>
             <HBox alignment="CENTER" prefHeight="240.0" prefWidth="1080.0">
                <children>
-                  <Button fx:id="optionsBackButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#onOptionsBackButtonClick" text="Back to Menu" textFill="#201dc9">
+                  <Button fx:id="optionsBackButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#onOptionsBackButtonClick" text="Back to Menu" textFill="#201dc9">
                      <font>
                         <Font size="46.0" />
                      </font>
