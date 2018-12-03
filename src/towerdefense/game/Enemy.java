@@ -68,7 +68,7 @@ public class Enemy {
 	 */
 	public Enemy(Enemy templateEnemy) {
 		this.damagePerTick = templateEnemy.damagePerTick;
-		this.movementPerTick = templateEnemy.damagePerTick;
+		this.movementPerTick = templateEnemy.movementPerTick;
 		this.maxHealth = templateEnemy.maxHealth;
 		this.health = templateEnemy.health;
 		this.killBonus = templateEnemy.killBonus;

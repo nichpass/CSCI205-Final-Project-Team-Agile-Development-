@@ -17,31 +17,40 @@
             <top>
                 <Pane prefHeight="150.0" prefWidth="640.0" BorderPane.alignment="TOP_CENTER">
                     <children>
-                        <VBox alignment="CENTER" layoutX="643.0" prefHeight="150.0" prefWidth="640.0">
-                            <children>
-                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                    <children>
-                                        <Label alignment="CENTER" contentDisplay="BOTTOM" prefHeight="45.0" prefWidth="225.0" text="Time Survived:" />
-                                        <Label fx:id="survivalTimeLabel" text="00:00:00" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                    <children>
-                                        <Label alignment="CENTER" contentDisplay="BOTTOM" prefHeight="33.0" prefWidth="181.0" text="Capital:" />
-                                        <Label fx:id="currentMoneyLabel" text="0" />
-                                    </children>
-                                </HBox>
-                            </children>
+                  <HBox alignment="CENTER" layoutX="600.0" layoutY="-1.0" prefHeight="100.0" prefWidth="600.0">
+                     <children>
+                        <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="300.0" spacing="10.0">
+                           <children>
+                              <Label text="Time Survived:" />
+                              <Label text="Money:" />
+                              <Label text="Lives: " />
+                           </children>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
                         </VBox>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="300.0" spacing="10.0">
+                           <children>
+                              <Label fx:id="survivalTimeLabel" text="00:00:00" />
+                              <Label fx:id="currentMoneyLabel" text="\$0.00" />
+                              <Label fx:id="livesLabel" text="10" />
+                           </children>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="640.0">
                             <children>
-                                <Label text="Select Your Defenses:" />
-                                <HBox fx:id="selectTowerBox" alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="640.0" />
+                                <Label prefHeight="10.0" text="Select Your Defenses:" />
+                                <HBox fx:id="selectTowerBox" alignment="BOTTOM_CENTER" prefHeight="130.0" prefWidth="640.0" />
                             </children>
                             <padding>
                                 <Insets top="10.0" />
                             </padding>
                         </VBox>
+                  <Button layoutX="855.0" layoutY="100.0" mnemonicParsing="false" onAction="#onQuitGameButtonClick" prefHeight="30.0" prefWidth="90.0" text="Quit Game" />
                     </children>
                     <BorderPane.margin>
                         <Insets />
@@ -96,7 +105,7 @@
                 </HBox>
             <HBox alignment="CENTER" prefHeight="240.0" prefWidth="1080.0">
                <children>
-                  <Button fx:id="optionsBackButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#onOptionsBackButtonClick" text="Back to Menu" textFill="#201dc9">
+                  <Button fx:id="optionsBackButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#onOptionsBackButtonClick" text="Back to Menu" textFill="#201dc9">
                      <font>
                         <Font size="46.0" />
                      </font>
@@ -124,5 +133,24 @@
                 </Button>
             </children>
         </VBox>
+      <VBox fx:id="gameOverScreen" alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" spacing="50.0" visible="false">
+         <children>
+            <Label text="GAME OVER">
+               <font>
+                  <Font size="96.0" />
+               </font>
+            </Label>
+            <Label fx:id="gameOverTimeSurvivedLabel" text="Time Survived: 0:00">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#onGameOverBackToMenuButtonClick" text="Back to Menu">
+               <font>
+                  <Font size="72.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
     </children>
 </AnchorPane>

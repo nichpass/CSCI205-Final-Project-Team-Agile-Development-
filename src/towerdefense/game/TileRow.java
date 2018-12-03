@@ -18,6 +18,12 @@ package towerdefense.game;
 import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 
 /**
@@ -25,9 +31,10 @@ import javafx.scene.layout.HBox;
  * @author rsf
  */
 public class TileRow {
-	
+
 	private ArrayList<Tile> tilesInRow = new ArrayList();
 	private int livesLostInRow = 0;
+	private Background tileBackground;
 
 	/**
 	 * Constructs a row with the specified number of tiles.
@@ -38,6 +45,15 @@ public class TileRow {
 		for (int i = 0; i < numTiles; i++) {
 			tilesInRow.add(new Tile());
 		}
+		Image image = new Image(
+				"towerdefense/images/environment/tile_sprite.jpg");
+		BackgroundSize size = new BackgroundSize(100, 100, true, true, true,
+												 false);
+		this.tileBackground = new Background(new BackgroundImage(image,
+																 BackgroundRepeat.REPEAT,
+																 BackgroundRepeat.NO_REPEAT,
+																 BackgroundPosition.CENTER,
+																 size));
 	}
 
 	/**
@@ -81,6 +97,8 @@ public class TileRow {
 			row.getChildren().add(tile.getDrawableNode());
 		}
 		row.setAlignment(Pos.CENTER);
+		row.setBackground(this.tileBackground);
+		row.setMaxWidth(TowerDefenseGame.TILE_PIXEL_SIZE * tilesInRow.size());
 		return row;
 	}
 
@@ -98,7 +116,7 @@ public class TileRow {
 	public boolean tryAddTowerAt(Tower towerToAdd, int tileIndex) {
 		return tilesInRow.get(tileIndex).tryAddTower(towerToAdd);
 	}
-	
+
 	private void makeTransitionsRight(int tileIndex) {
 		if (tileIndex == tilesInRow.size() - 1) {
 			tilesInRow.get(tileIndex).popProjectiles();
@@ -107,9 +125,9 @@ public class TileRow {
 			tilesInRow.get(tileIndex + 1).pushProjectiles(tilesInRow.get(
 					tileIndex).popProjectiles());
 		}
-		
+
 	}
-	
+
 	private void makeTransitionsLeft(int tileIndex) {
 		if (tileIndex == 0) {
 			livesLostInRow += tilesInRow.get(tileIndex).popEnemies().size();
@@ -118,6 +136,16 @@ public class TileRow {
 			tilesInRow.get(tileIndex - 1).pushEnemies(
 					tilesInRow.get(tileIndex).popEnemies());
 		}
-		
+	}
+
+	/**
+	 * Returns the number of {@link Enemy} objects that have reached the end of
+	 * the row.
+	 *
+	 * @return the number of {@link Enemy} objects that have reached the end of
+	 * the row
+	 */
+	public int getLivesLostInRow() {
+		return livesLostInRow;
 	}
 }

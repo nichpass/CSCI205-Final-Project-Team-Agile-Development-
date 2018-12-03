@@ -29,7 +29,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import towerdefense.game.Difficulty;
-import towerdefense.game.SurvivalTimer;
 import towerdefense.game.Tower;
 import towerdefense.game.TowerDefenseGame;
 
@@ -70,10 +69,16 @@ public class TowerDefenseUIController extends AnimationTimer {
     private Pane centerGamePane;
     @FXML
     private Pane bottomPreviewPane;
+    @FXML
+    private Label livesLabel;
+    @FXML
+    private Pane gameOverScreen;
+    @FXML
+    private Label gameOverTimeSurvivedLabel;
 
     private Stage stage;
 
-    private Difficulty selectedDifficulty;
+    private Difficulty selectedDifficulty = Difficulty.MEDIUM;
 
     private TowerDefenseGame game;
     private long lastFrameTime = System.nanoTime();
@@ -81,10 +86,13 @@ public class TowerDefenseUIController extends AnimationTimer {
 
     public TowerDefenseUIController() {
         Image image = new Image("towerdefense/images/environment/sky_sprite.jpg");
-        BackgroundSize size = new BackgroundSize(100, 100, true, true, true, false);
-        background = new Background(new BackgroundImage
-                (image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
-
+        BackgroundSize size = new BackgroundSize(100, 100, true, true, true,
+                                                 false);
+        background = new Background(new BackgroundImage(image,
+                                                        BackgroundRepeat.REPEAT,
+                                                        BackgroundRepeat.NO_REPEAT,
+                                                        BackgroundPosition.CENTER,
+                                                        size));
     }
 
     @FXML
@@ -127,14 +135,16 @@ public class TowerDefenseUIController extends AnimationTimer {
     private void onMenuPlayButtonClick(ActionEvent event) {
         game = new TowerDefenseGame(selectedDifficulty);
         this.currentMoneyLabel.textProperty().bind(
-            this.game.getMoneyHandler().getMoneyAsStringProperty());
+            game.getMoneyHandler().getMoneyAsStringProperty());
         this.survivalTimeLabel.textProperty().bind(
             game.getSurvivalTimer().getTimerAsStringProperty());
-
+        this.livesLabel.textProperty().bind(
+            game.getLivesProperty().asString());
         menuScreen.setMouseTransparent(true);
         menuScreen.setVisible(false);
         gameScreen.setMouseTransparent(false);
         gameScreen.setVisible(true);
+        selectTowerBox.getChildren().clear();
         for (Tower selectableTower : game.getSelectableTowers()) {
             HBox towerSelector = (HBox) selectableTower.getDrawableNode();
             towerSelector.setOnMouseClicked((MouseEvent e) -> {
@@ -180,6 +190,14 @@ public class TowerDefenseUIController extends AnimationTimer {
         menuScreen.setVisible(true);
     }
 
+    @FXML
+    private void onQuitGameButtonClick(ActionEvent event) {
+        gameScreen.setVisible(false);
+        gameScreen.setMouseTransparent(true);
+        menuScreen.setMouseTransparent(false);
+        menuScreen.setVisible(true);
+    }
+
     /**
      * Sets the stage of the controller for exiting purposes.
      *
@@ -198,22 +216,43 @@ public class TowerDefenseUIController extends AnimationTimer {
     public void handle(long now) {
         if ((60 * (now - lastFrameTime)) / 1000000000 > 0) {
             if (new Random().nextInt(60) == 0) {
-                game.spawnEnemyAt(new Random().nextInt(4), new Random().nextDouble());
+                game.spawnEnemyAt(new Random().nextInt(4),
+                                  new Random().nextDouble());
             }
             game.update();
             draw();
+            if (game.isOver()) {
+                onGameOver();
+            }
         }
         lastFrameTime += 1.0E-9 / 60;
     }
 
+    private void onGameOver() {
+        this.stop();
+        gameOverTimeSurvivedLabel.setText(
+            "Time Survived: " + this.survivalTimeLabel.getText());
+        gameScreen.setVisible(false);
+        gameScreen.setMouseTransparent(true);
+        gameOverScreen.setVisible(true);
+        gameOverScreen.setMouseTransparent(false);
+    }
+
     private void draw() {
         centerGamePane.getChildren().clear();
-
         centerGamePane.setBackground(this.background);
         centerGamePane.getChildren().add(game.getDrawableNode());
         //bottomPreviewPane.getChildren().add;
         drawMoney();
         drawTimer();
+    }
+
+    @FXML
+    private void onGameOverBackToMenuButtonClick() {
+        menuScreen.setVisible(true);
+        menuScreen.setMouseTransparent(false);
+        gameOverScreen.setVisible(false);
+        gameOverScreen.setMouseTransparent(true);
     }
 
     private void drawMoney() {
