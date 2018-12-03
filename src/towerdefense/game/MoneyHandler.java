@@ -1,3 +1,18 @@
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Fall 2018
+*
+* Name: Alison Esterow, Nick Passantino, Zach Dunbrack
+* Date: Nov 9, 2018
+* Time: 12:10:08 PM
+*
+* Project: csci205_final_project
+* Package: game
+* File: MoneyHandler
+* Description: TODO fill in description for Enemy
+*
+* ****************************************
+ */
 package towerdefense.game;
 
 import java.text.DecimalFormat;

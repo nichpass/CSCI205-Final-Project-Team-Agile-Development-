@@ -1,3 +1,18 @@
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Fall 2018
+*
+* Name: Alison Esterow, Nick Passantino, Zach Dunbrack
+* Date: Nov 9, 2018
+* Time: 12:10:08 PM
+*
+* Project: csci205_final_project
+* Package: game
+* File: EnemySpawner
+* Description: Spawns enemy and puts it into the game  over a given time period
+*
+* ****************************************
+ */
 package towerdefense.game;
 
 import java.util.Random;

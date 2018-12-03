@@ -9,13 +9,14 @@
 * Project: csci205_final_project
 * Package: game
 * File: TileRow
-* Description: TODO fill in description for TileRow
+* Description: TileRow
 *
 * ****************************************
  */
 package towerdefense.game;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -117,6 +118,12 @@ public class TileRow {
 		return tilesInRow.get(tileIndex).tryAddTower(towerToAdd);
 	}
 
+	/**
+	 * Move projectiles to the right of the tile it is on within the tileRow
+	 *
+	 * @param tileIndex, int that represents the tile the projectile is on
+	 *
+	 */
 	private void makeTransitionsRight(int tileIndex) {
 		if (tileIndex == tilesInRow.size() - 1) {
 			tilesInRow.get(tileIndex).popProjectiles();
@@ -128,6 +135,12 @@ public class TileRow {
 
 	}
 
+	/**
+	 * Move enemies to the left of the tile it is on within the tileRow
+	 *
+	 * @param tileIndex, int that represents the tile the enemy is on
+	 *
+	 */
 	private void makeTransitionsLeft(int tileIndex) {
 		if (tileIndex == 0) {
 			livesLostInRow += tilesInRow.get(tileIndex).popEnemies().size();
@@ -148,4 +161,26 @@ public class TileRow {
 	public int getLivesLostInRow() {
 		return livesLostInRow;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final TileRow other = (TileRow) obj;
+		if (this.livesLostInRow != other.livesLostInRow) {
+			return false;
+		}
+		if (!Objects.equals(this.tilesInRow, other.tilesInRow)) {
+			return false;
+		}
+		return true;
+	}
+
 }

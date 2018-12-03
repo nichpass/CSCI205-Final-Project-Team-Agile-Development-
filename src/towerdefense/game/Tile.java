@@ -16,6 +16,7 @@
 package towerdefense.game;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -149,6 +150,11 @@ public class Tile {
 		projectiles.removeAll(collidedProjectiles);
 	}
 
+	/**
+	 * checks to see if the projectile has collided with the enemy
+	 *
+	 *
+	 */
 	private void checkCollisions() {
 		ArrayList<Projectile> collidedProjectiles = new ArrayList();
 		for (Projectile projectile : projectiles) {
@@ -214,6 +220,11 @@ public class Tile {
 		return tile;
 	}
 
+	/**
+	 * tries to spawn projectiles from the tower
+	 *
+	 *
+	 */
 	private void trySpawnProjectile() {
 		if (tower != null) {
 			Projectile p = tower.update();
@@ -223,19 +234,36 @@ public class Tile {
 		}
 	}
 
-	/**
-	 * Returns the list of enemies killed on all tiles since the last update.
-	 *
-	 * @return the list of enemies killed on all tiles since the last update
-	 */
 	public static ArrayList<Enemy> getKilledEnemies() {
 		return Tile.killedEnemies;
 	}
 
-	/**
-	 * Clears the list of enemies killed on all tiles since the last update.
-	 */
 	public static void clearKilledEnemies() {
 		Tile.killedEnemies.clear();
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Tile other = (Tile) obj;
+		if (!Objects.equals(this.tower, other.tower)) {
+			return false;
+		}
+		if (!Objects.equals(this.projectiles, other.projectiles)) {
+			return false;
+		}
+		if (!Objects.equals(this.enemies, other.enemies)) {
+			return false;
+		}
+		return true;
+	}
+
 }

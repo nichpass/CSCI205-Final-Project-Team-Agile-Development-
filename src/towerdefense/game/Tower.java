@@ -9,12 +9,13 @@
 * Project: csci205_final_project
 * Package: game
 * File: Tower
-* Description: TODO fill in description for Tower
+* Description: Tower class
 *
 * ****************************************
  */
 package towerdefense.game;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -34,7 +35,7 @@ public class Tower {
 	private final Projectile projectileShot;
 	private final int ticksBetweenShots;
 	private int ticksToNextShot;
-	private int health;
+	int health;
 	private final int maxHealth;
 	private Supplier<Node> drawableItemGenerator;
 	private final int cost;
@@ -154,4 +155,35 @@ public class Tower {
 	public int getCost() {
 		return this.cost;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Tower other = (Tower) obj;
+		if (this.ticksBetweenShots != other.ticksBetweenShots) {
+			return false;
+		}
+		if (this.ticksToNextShot != other.ticksToNextShot) {
+			return false;
+		}
+		if (this.health != other.health) {
+			return false;
+		}
+		if (this.maxHealth != other.maxHealth) {
+			return false;
+		}
+		if (!Objects.equals(this.projectileShot, other.projectileShot)) {
+			return false;
+		}
+		return true;
+	}
+
 }

@@ -182,7 +182,42 @@ public class Enemy {
 		return enemyBox;
 	}
 
+	/*
+        * gets the kill bonus and returns it
+        *@return the kill bonus
+	 */
 	public double getKillBonus() {
 		return this.killBonus;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Enemy other = (Enemy) obj;
+		if (this.damagePerTick != other.damagePerTick) {
+			return false;
+		}
+		if (this.movementPerTick != other.movementPerTick) {
+			return false;
+		}
+		if (this.health != other.health) {
+			return false;
+		}
+		if (this.maxHealth != other.maxHealth) {
+			return false;
+		}
+		if (this.positionInTile != other.positionInTile) {
+			return false;
+		}
+		return true;
+	}
+
 }

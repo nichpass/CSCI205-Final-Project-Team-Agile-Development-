@@ -1,3 +1,19 @@
+
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Fall 2018
+*
+* Name: Alison Esterow, Nick Passantino, Zach Dunbrack
+* Date: Nov 9, 2018
+* Time: 12:10:08 PM
+*
+* Project: csci205_final_project
+* Package: game
+* File: SurvivalTimer
+* Description: TODO fill in description for SurvivalTimer
+*
+* ****************************************
+ */
 package towerdefense.game;
 
 import javafx.beans.property.SimpleStringProperty;

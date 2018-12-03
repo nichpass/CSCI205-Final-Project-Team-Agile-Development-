@@ -205,31 +205,48 @@ public class TowerDefenseGame {
 		return boardNode;
 	}
 
-	private boolean canBuyTower(Tower towerToBuy) {
-		return moneyHandler.canBuyTower(towerToBuy);
-	}
+    /**
+     * Checks if tower can be bought and returns a Boolean if tower can be
+     * bought or not
+     *
+     * @param towerToBuy , a tower that the user wants to buy
+     *
+     * @return a Boolean ; True if tower can be bought, false if not
+     */
+    private boolean canBuyTower(Tower towerToBuy) {
+        return moneyHandler.canBuyTower(towerToBuy);
+    }
 
-	/**
-	 * Spawns enemies based on the current state of the game.
-	 */
-	private void spawnEnemies() {
-		//if enemy has reached end or a certain amount of time has passed spawn another enenemy
-		//certain enemies depending on certain levels?
-		//time??
-		// TODO create and implement algorithm for spawning enemies based on list of enemies provided (add spawning frequency as attribute? relate to difficulty? need to think about before implementation
-	}
+    /**
+     * Spawns enemies based on the current state of the game.
+     */
+    private void spawnEnemies() {
+        //if enemy has reached end or a certain amount of time has passed spawn another enenemy
+        //certain enemies depending on certain levels?
+        //time??
+        // TODO create and implement algorithm for spawning enemies based on list of enemies provided (add spawning frequency as attribute? relate to difficulty? need to think about before implementation
+    }
 
-	public void updateMoney(ArrayList<Enemy> enemiesKilled, Tower towerPurchased) {
-		this.moneyHandler.update(enemiesKilled, towerPurchased);
-	}
+    /**
+     * updates the moneyHandler based off of enemies killed and towers purchased
+     *
+     * @param enemiesKilled, ArrayList<Enemy> , list of how many enemies have
+     * been killed
+     * @param towerPurchased, tower, the tower purchsed
+     *
+     *
+     */
+    public void updateMoney(ArrayList<Enemy> enemiesKilled, Tower towerPurchased) {
+        this.moneyHandler.update(enemiesKilled, towerPurchased);
+    }
 
 	public void updateTimer() {
 		this.survivalTimer.update();
 	}
 
-	public MoneyHandler getMoneyHandler() {
-		return this.moneyHandler;
-	}
+    public MoneyHandler getMoneyHandler() {
+        return this.moneyHandler;
+    }
 
 	public SurvivalTimer getSurvivalTimer() {
 		return this.survivalTimer;
