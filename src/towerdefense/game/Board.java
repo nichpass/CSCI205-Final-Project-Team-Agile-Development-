@@ -99,4 +99,12 @@ public class Board {
 
 		return rows;
 	}
+
+	public int getLivesLost() {
+		int livesLost = 0;
+		for (TileRow row : gameRows) {
+			livesLost += row.getLivesLostInRow();
+		}
+		return livesLost;
+	}
 }

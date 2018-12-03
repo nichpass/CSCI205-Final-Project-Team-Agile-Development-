@@ -212,7 +212,6 @@ public class TowerDefenseUIController extends AnimationTimer {
 
 	private void draw() {
 		centerGamePane.getChildren().clear();
-
 		centerGamePane.setBackground(this.background);
 		centerGamePane.getChildren().add(game.getDrawableNode());
 		drawMoney();

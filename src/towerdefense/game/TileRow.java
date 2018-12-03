@@ -136,6 +136,16 @@ public class TileRow {
 			tilesInRow.get(tileIndex - 1).pushEnemies(
 					tilesInRow.get(tileIndex).popEnemies());
 		}
+	}
 
+	/**
+	 * Returns the number of {@link Enemy} objects that have reached the end of
+	 * the row.
+	 *
+	 * @return the number of {@link Enemy} objects that have reached the end of
+	 * the row
+	 */
+	public int getLivesLostInRow() {
+		return livesLostInRow;
 	}
 }

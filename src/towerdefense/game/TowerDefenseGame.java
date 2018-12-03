@@ -16,6 +16,7 @@
 package towerdefense.game;
 
 import java.util.ArrayList;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -59,14 +60,16 @@ public class TowerDefenseGame {
 																 "towerdefense/images/projectiles/projectile_kamek.png"), null};
 	private static final int NUM_ROWS = 4;
 	private static final int NUM_TILES_PER_ROW = 8;
+	private static final int STARTING_LIVES = 10;
 	private final Difficulty difficulty;
 	private Tower selectedTower = null;
 	private final ArrayList<Tower> selectableTowers = new ArrayList();
 	private final Enemy[] ENEMY_TYPES = new Enemy[3];
 	private final Board gameBoard = new Board(NUM_ROWS, NUM_TILES_PER_ROW);
-	private MoneyHandler moneyHandler;
-	private SurvivalTimer survivalTimer;
-	private int playerScore = 0;
+	private final MoneyHandler moneyHandler;
+	private final SurvivalTimer survivalTimer;
+	private SimpleIntegerProperty lives = new SimpleIntegerProperty(
+			STARTING_LIVES);
 	private EnemySpawner enemySpawner;
 
 	/**
@@ -153,6 +156,7 @@ public class TowerDefenseGame {
 	 */
 	public void update() {
 		Tile.clearKilledEnemies();
+		lives.set(STARTING_LIVES - gameBoard.getLivesLost());
 		gameBoard.update();
 		updateMoney(Tile.getKilledEnemies(), null);
 		updateTimer();
@@ -237,4 +241,15 @@ public class TowerDefenseGame {
 			this.selectedTower = towerToSelect;
 		}
 	}
+
+	/**
+	 * Returns the Property object associated with the number of lives
+	 * remaining.
+	 *
+	 * @return the Property object associated with the number of lives remaining
+	 */
+	public SimpleIntegerProperty getLivesProperty() {
+		return lives;
+	}
+
 }
