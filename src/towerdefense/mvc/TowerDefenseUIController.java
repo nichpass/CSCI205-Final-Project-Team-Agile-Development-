@@ -81,7 +81,7 @@ public class TowerDefenseUIController extends AnimationTimer {
 	private Difficulty selectedDifficulty = Difficulty.MEDIUM;
 	private TowerDefenseGame game;
 	private long lastFrameTime = System.nanoTime();
-	private Background background;
+	private final Background background;
 	private int ticksPassed = 0;
 	private static final int NUM_ROWS = 4;
 	private static final int NUM_TILES_PER_ROW = 8;
