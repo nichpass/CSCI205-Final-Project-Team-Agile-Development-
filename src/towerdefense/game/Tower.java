@@ -9,13 +9,13 @@
 * Project: csci205_final_project
 * Package: game
 * File: Tower
-* Description: Tower class
+* Description: A class representing the towers that can be placed on tiles on 
+* the game board.
 *
 * ****************************************
  */
 package towerdefense.game;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -27,6 +27,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 /**
+ * A class representing the towers that can be placed on {@link Tile} objects.
+ * These objects will occasionally provide {@link Projectile} objects to be
+ * added to their associated {@link Tile} object via the {@link #update()}
+ * function.
  *
  * @author rsf
  */
@@ -35,9 +39,9 @@ public class Tower {
 	private final Projectile projectileShot;
 	private final int ticksBetweenShots;
 	private int ticksToNextShot;
-	int health;
+	private int health;
 	private final int maxHealth;
-	private Supplier<Node> drawableItemGenerator;
+	private final Supplier<Node> drawableItemGenerator;
 	private final int cost;
 
 	/**
@@ -152,38 +156,12 @@ public class Tower {
 		return towerBox;
 	}
 
+	/**
+	 * Returns the cost of the tower for use by the {@link MoneyHandler} class.
+	 *
+	 * @return the cost of the tower
+	 */
 	public int getCost() {
 		return this.cost;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final Tower other = (Tower) obj;
-		if (this.ticksBetweenShots != other.ticksBetweenShots) {
-			return false;
-		}
-		if (this.ticksToNextShot != other.ticksToNextShot) {
-			return false;
-		}
-		if (this.health != other.health) {
-			return false;
-		}
-		if (this.maxHealth != other.maxHealth) {
-			return false;
-		}
-		if (!Objects.equals(this.projectileShot, other.projectileShot)) {
-			return false;
-		}
-		return true;
-	}
-
 }

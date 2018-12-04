@@ -10,7 +10,8 @@
 * Project: csci205_final_project
 * Package: game
 * File: SurvivalTimer
-* Description: TODO fill in description for SurvivalTimer
+* Description:  A helper class that manages the display of time survived and 
+* keeps track of the value.
 *
 * ****************************************
  */
@@ -20,61 +21,59 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * class that manages the timer displayed in the game screen
+ * A helper class that manages the display of time survived and keeps track of
+ * the value.
  */
 public class SurvivalTimer {
 
-    /**
-     * The amount of seconds the player has survived for *
-     */
-    private double secondsSurvived;
+	private double secondsSurvived = 0;
+	private final StringProperty timerStringProperty = new SimpleStringProperty(
+			"00:00");
 
-    /**
-     * The String that will be displayed on the screen *
-     */
-    private String timerString;
+	/**
+	 * Constructs a SurvivalTimer with no time elapsed.
+	 */
+	public SurvivalTimer() {
+	}
 
-    /**
-     * The property necessary for bindings to be used in the UIController *
-     */
-    private StringProperty timerStringProperty;
+	/**
+	 * Updates the current string and decimal representations of time survived.
+	 */
+	public void update() {
+		this.secondsSurvived += 1.0 / 60;
 
-    /**
-     * Sets the initial values of the variables that correspond to zero-elapsed
-     * time
-     */
-    public SurvivalTimer() {
-        this.timerString = "00:00";
-        this.timerStringProperty = new SimpleStringProperty(timerString);
-    }
+		int numMinutes = (int) this.secondsSurvived / (60);
+		int numSeconds = (int) this.secondsSurvived % 60;
 
-    /**
-     * Updates the timerString using timeSurived
-     */
-    public void update() {
-        this.secondsSurvived += 1.0 / 60;
+		this.timerStringProperty.set(
+				String.format("%02d", numMinutes) + ":" + String.format(
+				"%02d", numSeconds));
+	}
 
-        int numMinutes = (int) this.secondsSurvived / (60);
-        int numSeconds = (int) this.secondsSurvived % 60;
+	/**
+	 * Resets the timer back to its initial value of 0 seconds having passed.
+	 */
+	public void resetTimer() {
+		this.secondsSurvived = 0.0;
+		this.timerStringProperty.set("00:00");
+	}
 
-        this.timerString = String.format("%02d", numMinutes) + ":" + String.format(
-            "%02d", numSeconds);
-    }
+	/**
+	 * Returns the Property object associated with the time elapsed.
+	 *
+	 * @return the Property object associated with the time elapsed
+	 */
+	public StringProperty getTimerAsStringProperty() {
+		return this.timerStringProperty;
+	}
 
-    /**
-     * Sets the timer back to zero
-     */
-    public void resetTimer() {
-        this.secondsSurvived = 0.0;
-    }
-
-    public StringProperty getTimerAsStringProperty() {
-        return this.timerStringProperty;
-    }
-
-    public void updateStringProperty() {
-        this.timerStringProperty.setValue(this.timerString);
-    }
-
-    public double getTimeSurvived(){ return this.secondsSurvived; }
+	/**
+	 * Returns the decimal value of seconds survived.
+	 *
+	 * @return the number of seconds survived from the game's calculation by
+	 * frames/ticks
+	 */
+	public double getSecondsSurvived() {
+		return this.secondsSurvived;
+	}
 }

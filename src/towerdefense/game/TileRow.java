@@ -9,14 +9,13 @@
 * Project: csci205_final_project
 * Package: game
 * File: TileRow
-* Description: TileRow
+* Description: A class representing the rows of the game board.
 *
 * ****************************************
  */
 package towerdefense.game;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -28,6 +27,10 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 
 /**
+ * A class representing the self-contained rows of {@link Tile} objects that
+ * make up the {@link Board}. This class facilitates the transition of
+ * {@link Enemy} and {@link Projectile} objects between different {@link Tile}
+ * objects.
  *
  * @author rsf
  */
@@ -38,6 +41,18 @@ public class TileRow {
 	private Background tileBackground;
 
 	/**
+	 * A secondary constructor created solely for testing. Calling this
+	 * constructor is equivalent to calling TileRow(2), except that it does not
+	 * initialize the visual background. Trying to initialize the background in
+	 * a JUnit test causes an error, so this is a moderately hacky workaround.
+	 * <b>NEVER</b> use this in any actual product beyond for testing.
+	 */
+	public TileRow() {
+		tilesInRow.add(new Tile());
+		tilesInRow.add(new Tile());
+	}
+
+	/**
 	 * Constructs a row with the specified number of tiles.
 	 *
 	 * @param numTiles the number of tiles in the row
@@ -46,15 +61,14 @@ public class TileRow {
 		for (int i = 0; i < numTiles; i++) {
 			tilesInRow.add(new Tile());
 		}
-		Image image = new Image(
-				"towerdefense/images/environment/tile_sprite.jpg");
-		BackgroundSize size = new BackgroundSize(100, 100, true, true, true,
-												 false);
-		this.tileBackground = new Background(new BackgroundImage(image,
-																 BackgroundRepeat.REPEAT,
-																 BackgroundRepeat.NO_REPEAT,
-																 BackgroundPosition.CENTER,
-																 size));
+		tileBackground = new Background(new BackgroundImage(
+				new Image(
+						"towerdefense/images/environment/tile_sprite.jpg"),
+				BackgroundRepeat.REPEAT,
+				BackgroundRepeat.NO_REPEAT,
+				BackgroundPosition.CENTER,
+				new BackgroundSize(100, 100, true, true, true,
+								   false)));
 	}
 
 	/**
@@ -90,10 +104,6 @@ public class TileRow {
 	 */
 	public Node getDrawableNode() {
 		HBox row = new HBox();
-//		row.setBorder(new Border(new BorderStroke(Color.BLUE,
-//												  BorderStrokeStyle.SOLID,
-//												  CornerRadii.EMPTY,
-//												  BorderWidths.DEFAULT)));
 		for (Tile tile : tilesInRow) {
 			row.getChildren().add(tile.getDrawableNode());
 		}
@@ -161,26 +171,4 @@ public class TileRow {
 	public int getLivesLostInRow() {
 		return livesLostInRow;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final TileRow other = (TileRow) obj;
-		if (this.livesLostInRow != other.livesLostInRow) {
-			return false;
-		}
-		if (!Objects.equals(this.tilesInRow, other.tilesInRow)) {
-			return false;
-		}
-		return true;
-	}
-
 }

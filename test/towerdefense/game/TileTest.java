@@ -9,43 +9,34 @@
 * Project: csci205_final_project
 * Package: towerdefense.game
 * File: TileTest
-* Description: TODO fill in description for @{name}
+* Description:
 *
 * ****************************************
  */
 package towerdefense.game;
 
 import java.util.ArrayList;
-import javafx.scene.Node;
+import junit.framework.TestCase;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  *
  * @author zachd
  */
-public class TileTest {
+public class TileTest extends TestCase {
 
-	public TileTest() {
-	}
-
-	@BeforeClass
-	public static void setUpClass() {
-	}
-
-	@AfterClass
-	public static void tearDownClass() {
-	}
+	Tile instance;
 
 	@Before
 	public void setUp() {
+		instance = new Tile();
 	}
 
 	@After
 	public void tearDown() {
+		instance = null;
 	}
 
 	/**
@@ -54,117 +45,25 @@ public class TileTest {
 	@Test
 	public void testUpdate() {
 		System.out.println("update");
-		Tile instance = new Tile();
-		instance.update();
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of popEnemies method, of class Tile.
-	 */
-	@Test
-	public void testPopEnemies() {
-		System.out.println("popEnemies");
-		Tile instance = new Tile();
-		ArrayList<Enemy> expResult = null;
-		ArrayList<Enemy> result = instance.popEnemies();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of popProjectiles method, of class Tile.
-	 */
-	@Test
-	public void testPopProjectiles() {
-		System.out.println("popProjectiles");
-		Tile instance = new Tile();
-		ArrayList<Projectile> expResult = null;
-		ArrayList<Projectile> result = instance.popProjectiles();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of pushEnemies method, of class Tile.
-	 */
-	@Test
-	public void testPushEnemies() {
-		System.out.println("pushEnemies");
-		ArrayList<Enemy> enemies = null;
-		Tile instance = new Tile();
+		Enemy enemy = new Enemy(1, 1, 1, 1, null);
+		ArrayList<Enemy> enemies = new ArrayList();
+		enemies.add(enemy);
+		Tower tower = new Tower(new Projectile(1, 1, null), 1, 1, 0, null);
+		instance.tryAddTower(tower);
 		instance.pushEnemies(enemies);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		for (int i = 0; i < 226; i++) { // after 226 updates, we expect the enemy to be in collision range
+			assertFalse(enemy.takeDamage(0));
+			instance.update();
+		}
+		assertTrue(enemy.takeDamage(0));
 	}
 
-	/**
-	 * Test of pushProjectiles method, of class Tile.
+	/*
+	Implicitly tested:
+	- Tower projectile spawning
+	- Projectile movement
+	- Enemy movement
+	- Projectile dealing damage
+	- Enemy taking damage
 	 */
-	@Test
-	public void testPushProjectiles() {
-		System.out.println("pushProjectiles");
-		ArrayList<Projectile> projectiles = null;
-		Tile instance = new Tile();
-		instance.pushProjectiles(projectiles);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of tryAddTower method, of class Tile.
-	 */
-	@Test
-	public void testTryAddTower() {
-		System.out.println("tryAddTower");
-		Tower towerToAdd = null;
-		Tile instance = new Tile();
-		boolean expResult = false;
-		boolean result = instance.tryAddTower(towerToAdd);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of getDrawableNode method, of class Tile.
-	 */
-	@Test
-	public void testGetDrawableNode() {
-		System.out.println("getDrawableNode");
-		Tile instance = new Tile();
-		Node expResult = null;
-		Node result = instance.getDrawableNode();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of getKilledEnemies method, of class Tile.
-	 */
-	@Test
-	public void testGetKilledEnemies() {
-		System.out.println("getKilledEnemies");
-		ArrayList<Enemy> expResult = null;
-		ArrayList<Enemy> result = Tile.getKilledEnemies();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of clearKilledEnemies method, of class Tile.
-	 */
-	@Test
-	public void testClearKilledEnemies() {
-		System.out.println("clearKilledEnemies");
-		Tile.clearKilledEnemies();
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
 }

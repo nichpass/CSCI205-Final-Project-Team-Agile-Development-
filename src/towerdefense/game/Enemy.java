@@ -9,7 +9,7 @@
 * Project: csci205_final_project
 * Package: game
 * File: Enemy
-* Description: TODO fill in description for Enemy
+* Description: The enemies of the player in the game.
 *
 * ****************************************
  */
@@ -25,6 +25,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 /**
+ * A class representing the enemy of the player in a {@link TowerDefenseGame}.
+ * These entities move left across their associated {@link TileRow} object and
+ * try to destroy any {@link Tower} objects they meet along the way, hopefully
+ * getting killed by a few {@link Projectile} objects along the way.
  *
  * @author rsf
  */
@@ -36,7 +40,7 @@ public class Enemy {
 	private final int maxHealth;
 	private final Supplier<Node> drawableItemGenerator;
 	private int positionInTile = TowerDefenseGame.TILE_SIZE;
-	private double killBonus;
+	private final double killBonus;
 
 	/**
 	 * Constructs a new enemy with the given parameters.
@@ -133,9 +137,8 @@ public class Enemy {
 	 */
 	public boolean fixPosition() {
 		int oldPosition = this.positionInTile;
-		this.positionInTile = (this.positionInTile % TowerDefenseGame.TILE_SIZE);
-		if (this.positionInTile == 0) {
-			this.positionInTile = TowerDefenseGame.TILE_SIZE;
+		if (this.positionInTile <= 0) {
+			this.positionInTile += TowerDefenseGame.TILE_SIZE;
 		}
 		return this.positionInTile != oldPosition;
 	}
@@ -182,42 +185,14 @@ public class Enemy {
 		return enemyBox;
 	}
 
-	/*
-        * gets the kill bonus and returns it
-        *@return the kill bonus
+	/**
+	 * Returns the amount of money that the {@link MoneyHandler} object should
+	 * provide the player with when this enemy is killed.
+	 *
+	 * @return the monetary reward for killing this enemy
 	 */
 	public double getKillBonus() {
 		return this.killBonus;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final Enemy other = (Enemy) obj;
-		if (this.damagePerTick != other.damagePerTick) {
-			return false;
-		}
-		if (this.movementPerTick != other.movementPerTick) {
-			return false;
-		}
-		if (this.health != other.health) {
-			return false;
-		}
-		if (this.maxHealth != other.maxHealth) {
-			return false;
-		}
-		if (this.positionInTile != other.positionInTile) {
-			return false;
-		}
-		return true;
 	}
 
 }

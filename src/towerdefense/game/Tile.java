@@ -9,45 +9,46 @@
 * Project: csci205_final_project
 * Package: game
 * File: Tile
-* Description: TODO fill in description for Tile
+* Description: A class representing the tiles that make up the board of the game.
 *
 * ****************************************
  */
 package towerdefense.game;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 /**
+ * A class representing the fundamental tile unit of the
+ * {@link TowerDefenseGame}. This class handles the internal calculations for
+ * collision detection and facilitates the updating of all
+ * {@link Enemy}, {@link Tower}, and {@link Projectile} objects.
  *
  * @author rsf
  */
 public class Tile {
 
-	private Tower tower;
-	private ArrayList<Projectile> projectiles = new ArrayList();
-	private ArrayList<Enemy> enemies = new ArrayList();
-
+	private Tower tower = null;
+	private final ArrayList<Projectile> projectiles = new ArrayList();
+	private final ArrayList<Enemy> enemies = new ArrayList();
 	private static final ArrayList<Enemy> killedEnemies = new ArrayList();
 
 	/**
 	 * Constructs a new Tile object with no {@link Tower} on it.
 	 */
 	public Tile() {
-		this.tower = null;
 	}
 
 	/**
-	 * Updates all items on the current tile with the following guidelines:
-	 * <ol><li> The tower should shoot if its <li> Enemies should move left
-	 * unless making contact with a tower, at which point they should attack the
-	 * tower and remain stationary;
-	 * </li><li>Projectiles should move right </li><li> Collisions should be
-	 * checked to ensure that no projectiles need to be destroyed due to contact
-	 * with an enemy.</li></ol>
+	 * Updates all items on the current tile with the following guidelines.
+	 * <ul><li> The tower should shoot if enough ticks have elapsed. <li>
+	 * Enemies should move left unless making contact with a tower, at which
+	 * point they should attack the tower and remain stationary.
+	 * </li><li>Projectiles should move right. </li><li> Collisions should be
+	 * checked to ensure that no projectiles or enemies need to be
+	 * destroyed.</li></ul>
 	 */
 	public void update() {
 		trySpawnProjectile();
@@ -150,11 +151,6 @@ public class Tile {
 		projectiles.removeAll(collidedProjectiles);
 	}
 
-	/**
-	 * checks to see if the projectile has collided with the enemy
-	 *
-	 *
-	 */
 	private void checkCollisions() {
 		ArrayList<Projectile> collidedProjectiles = new ArrayList();
 		for (Projectile projectile : projectiles) {
@@ -220,11 +216,6 @@ public class Tile {
 		return tile;
 	}
 
-	/**
-	 * tries to spawn projectiles from the tower
-	 *
-	 *
-	 */
 	private void trySpawnProjectile() {
 		if (tower != null) {
 			Projectile p = tower.update();
@@ -234,36 +225,23 @@ public class Tile {
 		}
 	}
 
+	/**
+	 * Returns the list of {@link Enemy} objects that have been killed across
+	 * all tiles.
+	 *
+	 * @return a list of all {@link Enemy} objects that have been killed since
+	 * the last update
+	 */
 	public static ArrayList<Enemy> getKilledEnemies() {
 		return Tile.killedEnemies;
 	}
 
+	/**
+	 * Clears the list of {@link Enemy} objects that have been killed across all
+	 * tiles.
+	 */
 	public static void clearKilledEnemies() {
 		Tile.killedEnemies.clear();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final Tile other = (Tile) obj;
-		if (!Objects.equals(this.tower, other.tower)) {
-			return false;
-		}
-		if (!Objects.equals(this.projectiles, other.projectiles)) {
-			return false;
-		}
-		if (!Objects.equals(this.enemies, other.enemies)) {
-			return false;
-		}
-		return true;
 	}
 
 }

@@ -9,42 +9,33 @@
 * Project: csci205_final_project
 * Package: towerdefense.game
 * File: TileRowTest
-* Description: TODO fill in description for @{name}
+* Description: 
 *
 * ****************************************
  */
 package towerdefense.game;
 
-import javafx.scene.Node;
+import junit.framework.TestCase;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  *
  * @author zachd
  */
-public class TileRowTest {
+public class TileRowTest extends TestCase {
 
-	public TileRowTest() {
-	}
-
-	@BeforeClass
-	public static void setUpClass() {
-	}
-
-	@AfterClass
-	public static void tearDownClass() {
-	}
+	TileRow instance;
 
 	@Before
 	public void setUp() {
+		instance = new TileRow();
 	}
 
 	@After
 	public void tearDown() {
+		instance = null;
 	}
 
 	/**
@@ -53,53 +44,20 @@ public class TileRowTest {
 	@Test
 	public void testUpdate() {
 		System.out.println("update");
-		TileRow instance = null;
-		instance.update();
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		Enemy enemy = new Enemy(1, 1, 1, 0, null);
+		instance.spawnEnemy(enemy);
+		Tower tower = new Tower(new Projectile(1, 1, null), 1, 1, 1,
+								null);
+		instance.tryAddTowerAt(tower, 0);
+		for (int i = 0; i < 726; i++) { // after 726 updates, we expect the enemy to be in collision range
+			assertFalse(enemy.takeDamage(0));
+			instance.update();
+		}
+		assertTrue(enemy.takeDamage(0));
 	}
-
-	/**
-	 * Test of spawnEnemy method, of class TileRow.
+	/*
+	Implicitly tested (beyond Tile update):
+	- TileRow transitions
 	 */
-	@Test
-	public void testSpawnEnemy() {
-		System.out.println("spawnEnemy");
-		Enemy spawnedEnemy = null;
-		TileRow instance = null;
-		instance.spawnEnemy(spawnedEnemy);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of getDrawableNode method, of class TileRow.
-	 */
-	@Test
-	public void testGetDrawableNode() {
-		System.out.println("getDrawableNode");
-		TileRow instance = null;
-		Node expResult = null;
-		Node result = instance.getDrawableNode();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of tryAddTowerAt method, of class TileRow.
-	 */
-	@Test
-	public void testTryAddTowerAt() {
-		System.out.println("tryAddTowerAt");
-		Tower towerToAdd = null;
-		int tileIndex = 0;
-		TileRow instance = null;
-		boolean expResult = false;
-		boolean result = instance.tryAddTowerAt(towerToAdd, tileIndex);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
-	}
 
 }

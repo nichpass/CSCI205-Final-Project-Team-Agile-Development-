@@ -9,14 +9,13 @@
 * Project: csci205_final_project
 * Package: game
 * File: TowerDefenseGame
-* Description: TODO fill in description for TowerDefenseGame
+* Description: The "model" of the MVC structure that runs single-tick updates.
 *
 * ****************************************
  */
 package towerdefense.game;
 
 import java.util.ArrayList;
-import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -26,6 +25,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
+ * A class acting as the "model" of the MVC structure. This class runs
+ * single-tick updates and handles a lot of the associations to allow the game's
+ * state to be appropriately displayed by the
+ * {@link towerdefense.mvc.TowerDefenseUIController}.
  *
  * @author rsf
  */
@@ -59,29 +62,31 @@ public class TowerDefenseGame {
 		"towerdefense/images/projectiles/projectile_drybones.png"), new Image(
 																 "towerdefense/images/projectiles/projectile_pipe.png"), new Image(
 																 "towerdefense/images/projectiles/projectile_kamek.png"), null};
-	private static final int NUM_ROWS = 4;
-	private static final int NUM_TILES_PER_ROW = 8;
+	private int numRows;
+	private final int numTilesPerRow;
+	private final Board gameBoard;
 	private static final int STARTING_LIVES = 10;
-	private final Difficulty difficulty;
 	private Tower selectedTower = null;
 	private final ArrayList<Tower> selectableTowers = new ArrayList();
 	private final Enemy[] ENEMY_TYPES = new Enemy[3];
-	private final Board gameBoard = new Board(NUM_ROWS, NUM_TILES_PER_ROW);
 	private final MoneyHandler moneyHandler;
-	private final SurvivalTimer survivalTimer;
-	private SimpleIntegerProperty lives = new SimpleIntegerProperty(
+	private final SurvivalTimer survivalTimer = new SurvivalTimer();
+	private final SimpleIntegerProperty lives = new SimpleIntegerProperty(
 			STARTING_LIVES);
-	private EnemySpawner enemySpawner = new EnemySpawner(gameBoard);
+	private final EnemySpawner enemySpawner;
 
 	/**
 	 * Constructs a game with the given difficulty.
 	 *
 	 * @param difficulty the difficulty of the new game
+	 * @param numRows the number of rows in the game
+	 * @param numTilesPerRow the number of rows in the game
 	 */
-	public TowerDefenseGame(Difficulty difficulty) {
-		this.difficulty = difficulty;
+	public TowerDefenseGame(Difficulty difficulty, int numRows,
+							int numTilesPerRow) {
+		this.numRows = numRows;
+		this.numTilesPerRow = numTilesPerRow;
 		this.moneyHandler = new MoneyHandler(difficulty);
-		this.survivalTimer = new SurvivalTimer();
 		selectableTowers.add(new Tower(new Projectile(10, 50,
 													  () -> new ImageView(
 															  PROJECTILE_IMAGES[0])
@@ -109,15 +114,17 @@ public class TowerDefenseGame {
 									   Integer.MAX_VALUE, 1000, 100,
 									   () -> new ImageView(TOWER_IMAGES[3])));
 
-		ENEMY_TYPES[0] = new Enemy(1, 10, 30, 20,
+		ENEMY_TYPES[0] = new Enemy(5, 10, 50, 10,
 								   () -> new ImageView(
-										   ENEMY_IMAGES[0]));
-		ENEMY_TYPES[1] = new Enemy(1, 10, 30, 20,
+										   ENEMY_IMAGES[0])); // Mario
+		ENEMY_TYPES[1] = new Enemy(5, 15, 40, 10,
 								   () -> new ImageView(
-										   ENEMY_IMAGES[1]));
-		ENEMY_TYPES[2] = new Enemy(1, 10, 30, 20,
+										   ENEMY_IMAGES[1])); // Luigi
+		ENEMY_TYPES[2] = new Enemy(3, 20, 20, 5,
 								   () -> new ImageView(
-										   ENEMY_IMAGES[2]));
+										   ENEMY_IMAGES[2])); // Peach
+		this.enemySpawner = new EnemySpawner(ENEMY_TYPES);
+		gameBoard = new Board(numRows, numTilesPerRow);
 	}
 
 	/**
@@ -161,27 +168,15 @@ public class TowerDefenseGame {
 		updateTimer();
 	}
 
-	public void spawnEnemyAt(int rowIndex) {
-		//this.enemySpawner.update(this.survivalTimer.getTimeSurvived(), rowIndex);
-		//this.gameBoard.spawnEnemyAtRow(new Enemy(1, 10, 30, 20,
-		//	() -> new ImageView("towerdefense/images/enemies/enemy_mario.png")), rowIndex);
-		//double enemyDeterminant = enemySpawner.update();
-
-		double enemyDeterminant = new Random().nextDouble();
-
-		if (enemyDeterminant < 0.3) {
-			gameBoard.spawnEnemyAtRow(new Enemy(ENEMY_TYPES[0]),
-									  rowIndex);
-		}
-		else if (0.3 <= enemyDeterminant && enemyDeterminant < 0.6) {
-			gameBoard.spawnEnemyAtRow(new Enemy(ENEMY_TYPES[1]),
-									  rowIndex);
-		}
-		else {
-			gameBoard.spawnEnemyAtRow(new Enemy(ENEMY_TYPES[2]),
-									  rowIndex);
-		}
-
+	/**
+	 * Spawns the given enemy at the given row.
+	 *
+	 * @param enemyToSpawn the {@link Enemy} object to be added to the game
+	 * @param rowIndex the index of the {@link TileRow} object at which the
+	 * enemy will be spawned
+	 */
+	public void spawnEnemyAt(Enemy enemyToSpawn, int rowIndex) {
+		gameBoard.spawnEnemyAtRow(enemyToSpawn, rowIndex);
 	}
 
 	/**
@@ -191,10 +186,10 @@ public class TowerDefenseGame {
 	 */
 	public Node getDrawableNode() {
 		VBox boardNode = (VBox) gameBoard.getDrawableNode();
-		for (int i = 0; i < NUM_ROWS; i++) {
+		for (int i = 0; i < numRows; i++) {
 			final int row = i;
 			HBox rowNode = (HBox) boardNode.getChildren().get(i);
-			for (int j = 0; j < NUM_TILES_PER_ROW; j++) {
+			for (int j = 0; j < numTilesPerRow; j++) {
 				final int col = j;
 				rowNode.getChildren().get(j).setOnMousePressed(
 						(MouseEvent event) -> {
@@ -205,57 +200,69 @@ public class TowerDefenseGame {
 		return boardNode;
 	}
 
-    /**
-     * Checks if tower can be bought and returns a Boolean if tower can be
-     * bought or not
-     *
-     * @param towerToBuy , a tower that the user wants to buy
-     *
-     * @return a Boolean ; True if tower can be bought, false if not
-     */
-    private boolean canBuyTower(Tower towerToBuy) {
-        return moneyHandler.canBuyTower(towerToBuy);
-    }
+	/**
+	 * Checks if tower can be bought and returns a Boolean if tower can be
+	 * bought or not
+	 *
+	 * @param towerToBuy a tower that the user wants to buy
+	 *
+	 * @return true if the given tower can be purchased; false otherwise
+	 */
+	private boolean canBuyTower(Tower towerToBuy) {
+		return moneyHandler.canBuyTower(towerToBuy);
+	}
 
-    /**
-     * Spawns enemies based on the current state of the game.
-     */
-    private void spawnEnemies() {
-        //if enemy has reached end or a certain amount of time has passed spawn another enenemy
-        //certain enemies depending on certain levels?
-        //time??
-        // TODO create and implement algorithm for spawning enemies based on list of enemies provided (add spawning frequency as attribute? relate to difficulty? need to think about before implementation
-    }
+	/**
+	 * Updates the {@link MoneyHandler} based off of enemies killed and towers
+	 * purchased since the last update
+	 *
+	 * @param enemiesKilled a list of how many enemies have been killed
+	 * @param towerPurchased tower the tower purchased
+	 */
+	public void updateMoney(ArrayList<Enemy> enemiesKilled, Tower towerPurchased) {
+		this.moneyHandler.update(enemiesKilled, towerPurchased);
+	}
 
-    /**
-     * updates the moneyHandler based off of enemies killed and towers purchased
-     *
-     * @param enemiesKilled, ArrayList<Enemy> , list of how many enemies have
-     * been killed
-     * @param towerPurchased, tower, the tower purchsed
-     *
-     *
-     */
-    public void updateMoney(ArrayList<Enemy> enemiesKilled, Tower towerPurchased) {
-        this.moneyHandler.update(enemiesKilled, towerPurchased);
-    }
-
+	/**
+	 * Updates the game's {@link SurvivalTimer}.
+	 */
 	public void updateTimer() {
 		this.survivalTimer.update();
 	}
 
-    public MoneyHandler getMoneyHandler() {
-        return this.moneyHandler;
-    }
+	/**
+	 * Returns the game's {@link MoneyHandler} (used for JavaFX bindings)
+	 *
+	 * @return the game's associated {@link MoneyHandler} object
+	 */
+	public MoneyHandler getMoneyHandler() {
+		return this.moneyHandler;
+	}
 
+	/**
+	 * Returns the game's {@link SurvivalTimer} (used for JavaFX bindings)
+	 *
+	 * @return the game's associated {@link SurvivalTimer} object
+	 */
 	public SurvivalTimer getSurvivalTimer() {
 		return this.survivalTimer;
 	}
 
+	/**
+	 * Returns the game's {@link Tower} objects (used for JavaFX bindings)
+	 *
+	 * @return the game's associated {@link Tower} objects
+	 */
 	public ArrayList<Tower> getSelectableTowers() {
 		return selectableTowers;
 	}
 
+	/**
+	 * Selects a tower such that the next click on a tile will place the
+	 * selected tower, if possible.
+	 *
+	 * @param towerToSelect the desired tower to be selected
+	 */
 	public void selectTower(Tower towerToSelect) {
 		if (this.selectableTowers.contains(towerToSelect)) {
 			this.selectedTower = towerToSelect;
@@ -275,16 +282,23 @@ public class TowerDefenseGame {
 	/**
 	 * Returns whether or not the player has any lives left.
 	 *
-	 * @return false if the player has a positive number of lives left; false
+	 * @return true if the player has a nonpositive number of lives left; false
 	 * otherwise
 	 */
 	public boolean isOver() {
 		return lives.get() <= 0;
 	}
 
-	public void trySpawn(double secondsElapsed, int index) {
-		if (this.enemySpawner.shouldSpawn(secondsElapsed)) {
-			this.spawnEnemyAt(index);
+	/**
+	 * Tries to spawn an enemy at the given row based on the number of "seconds"
+	 * that have elapsed since the start of the program (in terms of game
+	 * ticks).
+	 *
+	 * @param index the row at which the enemy will spawn, if at all
+	 */
+	public void trySpawn(int index) {
+		if (this.enemySpawner.shouldSpawn(survivalTimer.getSecondsSurvived())) {
+			this.spawnEnemyAt(this.enemySpawner.enemyToSpawn(), index);
 		}
 	}
 
