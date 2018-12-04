@@ -219,14 +219,15 @@ public class TowerDefenseGame {
 	 * @param enemiesKilled a list of how many enemies have been killed
 	 * @param towerPurchased tower the tower purchased
 	 */
-	public void updateMoney(ArrayList<Enemy> enemiesKilled, Tower towerPurchased) {
+	private void updateMoney(ArrayList<Enemy> enemiesKilled,
+							 Tower towerPurchased) {
 		this.moneyHandler.update(enemiesKilled, towerPurchased);
 	}
 
 	/**
 	 * Updates the game's {@link SurvivalTimer}.
 	 */
-	public void updateTimer() {
+	private void updateTimer() {
 		this.survivalTimer.update();
 	}
 
