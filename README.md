@@ -1,7 +1,7 @@
 # About the Project:
-Title: Monsters vs Plumbers : The Game
-Created By: Team ZAN 
-Team Members: Alison Esterow, Nick Passantino, and Zach Dunbrack
+Title: Monsters vs Plumbers : The Game<br>
+Created By: Team ZAN<br>
+Team Members: Alison Esterow, Nick Passantino, and Zach Dunbrack<br>
 Course: CSCI205 (Software Engineering and Design) at Bucknell University
 
 # About the Game:
